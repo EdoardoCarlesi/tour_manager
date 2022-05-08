@@ -1,0 +1,8 @@
+streamlit
+pandas
+numpy
+geopandas
+shapley
+folium
+streamlit_folium
+ryanair-py
