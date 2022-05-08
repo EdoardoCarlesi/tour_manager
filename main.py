@@ -49,31 +49,39 @@ def time_span(date):
 if __name__ == '__main__':
 
     csv='data/Tour-dates.csv'
-    df_full = pd.read_csv(csv, sep=';')
-    df = df_full.iloc[0:3]
-    pts = []
-    
+    df = pd.read_csv(csv, sep=';')
+    #df = df_full.iloc[0:3]
+    coords = []
+     
+    # Geolocate all the gigs
+    for i, row in df.iterrows():
+        gps = geocode_address(row)
+        gps1 = [gps.y, gps.x]
+        coords.append(gps1)
+
     # Center the map on some city around the center of Europe
     eu_center = {'Country':'Germany', 'City':'Darmstadt'}
     map_center = geocode_address(eu_center)
 
+    #tile = 'Stamen Toner'
+    tile = 'stamenwatercolor'
+    #tile = 'cartobdark_matter'
+
     # Create the folium map!
     m = folium.Map(location=[map_center.y, map_center.x], 
-                    tiles='Stamen Toner',
+                    tiles=tile,
                     zoom_start=4) 
 
+    # Create the actual streamlit stuff
     st.title('TOUR MANAGERS MAP')
     st.text('Follow and reach Nanowar wherever they may roam!')
     st.header('\n')
 
     # FIXME: this is going to look for the png file in some streamlit_folium subfolder!!
     img_path = 'data/N.png'
-    
+
     for i, row in df.iterrows():
-        gps = geocode_address(row)
-        gps1 = [gps.y, gps.x]
         text = f"Event: {row['Event name']}\r\n Date : {row['Event date']}"
-    
         new_date = convert_date_format(row['Event date'])
 
         # TODO: make this automatic, find all the IATA codes for the nearby airports!
@@ -89,9 +97,9 @@ if __name__ == '__main__':
             )
 
         # Add the marker!
-        folium.Marker(gps1, icon=icon, tooltip=text).add_to(m)
+        folium.Marker(coords[i], icon=icon, tooltip=text).add_to(m)
 
-        if len(dests) > 0:
+        if len(dests) > 10000:
             for dest in dests:
                 gps2 = gpd.tools.geocode(dest)['geometry'].values[0]
                 gps2 = [gps2.y, gps2.x]
