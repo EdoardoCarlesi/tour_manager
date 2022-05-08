@@ -5,7 +5,7 @@ import shapely
 import folium
 import airportsdata
 from folium.features import DivIcon
-from streamlit_folium import st_folium
+from streamlit_folium import st_folium, folium_static
 import matplotlib.pyplot as plt
 from ryanair import Ryanair
 import json
@@ -70,15 +70,14 @@ if __name__ == '__main__':
     # Create the folium map!
     m = folium.Map(location=[map_center.y, map_center.x], 
                     tiles=tile,
-                    zoom_start=4) 
+                    zoom_start=5) 
 
     # Create the actual streamlit stuff
-    st.title('TOUR MANAGERS MAP')
-    st.text('Follow and reach Nanowar wherever they may roam!')
+    st.title('TOUR MANAGERS M-APP')
+    st.text('Catch Nanowar Of Steel on Tour on the wings of a Barbagianni')
     st.header('\n')
 
-    # FIXME: this is going to look for the png file in some streamlit_folium subfolder!!
-    img_path = 'data/N.png'
+    img_path = 'http://www.nanowar.it/imgs/N.png'
 
     for i, row in df.iterrows():
         text = f"Event: {row['Event name']}\r\n Date : {row['Event date']}"
@@ -96,6 +95,8 @@ if __name__ == '__main__':
             html="<img src='"+ img_path +"' alt=" + text + ">"
             )
 
+        print(icon)
+
         # Add the marker!
         folium.Marker(coords[i], icon=icon, tooltip=text).add_to(m)
 
@@ -108,7 +109,8 @@ if __name__ == '__main__':
                 #folium.Marker(gps2, tooltip=text).add_to(m)
                 folium.PolyLine(line).add_to(m)
 
-    st_data = st_folium(m, width=800, height=600)
+    #st_data = st_folium(m, width=800, height=600)
+    folium_static(m, width=1000, height=800)
 
     
 
