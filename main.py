@@ -14,24 +14,19 @@ import json
 def find_connected_flights(airport_code, date_from, date_to):
     ryanair = Ryanair("EUR")
     flights = ryanair.get_flights(airport_code, date_from, date_to)
-
     destinations = []
     for flight in flights:
         destinations.append(flight.destinationFull)
-        
     return destinations
 
 
 def geocode_address(row=None, address=None):
-
     address = row['City'] + ' ' + row['Country']
     coord = gpd.tools.geocode(address)
-
     return coord['geometry'].values[0]
 
 
 def get_nearby_airport_code(city, country):
-
     pass
 
 def convert_date_format(date):
@@ -39,18 +34,17 @@ def convert_date_format(date):
 
 
 def time_span(date):
-
     date0 = date
     date1 = date
-
     return date0, date1
 
+def show_airports():
+    print('SHOWING AIRPORTS!')
 
 if __name__ == '__main__':
 
     csv='data/Tour-dates.csv'
     df = pd.read_csv(csv, sep=';')
-    #df = df_full.iloc[0:3]
     coords = []
      
     # Geolocate all the gigs
@@ -65,22 +59,37 @@ if __name__ == '__main__':
 
     #tile = 'Stamen Toner'
     tile = 'stamenwatercolor'
-    #tile = 'cartobdark_matter'
 
     # Create the folium map!
     m = folium.Map(location=[map_center.y, map_center.x], 
                     tiles=tile,
                     zoom_start=5) 
 
-    # Create the actual streamlit stuff
-    st.title('TOUR MANAGERS M-APP')
-    st.text('Catch Nanowar Of Steel on Tour on the wings of a Barbagianni')
-    st.header('\n')
+    st.markdown(""" <style> .title {
+    font-size:50px ; font-family: 'Cooper Black'; color: #FF9633;} 
+    </style> """, unsafe_allow_html=True)
 
-    img_path = 'http://www.nanowar.it/imgs/N.png'
+    st.markdown(""" <style> .text {
+    font-size:20px ; font-family: 'Cooper Black'; color: #FFFFFF;} 
+    </style> """, unsafe_allow_html=True)
+
+
+    #st.markdown(""" <style> .font {
+    #font-size:50px ; font-family: 'Cooper Black'; color: #FF9633;} 
+    #</style> """, unsafe_allow_html=True)
+
+    # Create the actual streamlit stuff
+    st.markdown('<p class="title">TOUR MANAGERS M-APP</p>', unsafe_allow_html=True)
+    st.markdown('<p class="text">Catch Nanowar Of Steel on Tour on the wings of a Barbagianni</p>', unsafe_allow_html=True)
+
+    #img_path = 'http://www.nanowar.it/imgs/N.png'
+    #img_path = 'http://www.nanowar.it/imgs/N_icon.png'
+    #img_path = 'https://www.nanowar.it/wp-content/uploads/2022/05/N_icon.png'
+    img_path = 'https://www.nanowar.it/wp-content/uploads/2022/05/N_icon_small.png'
 
     for i, row in df.iterrows():
-        text = f"Event: {row['Event name']}\r\n Date : {row['Event date']}"
+        #text = f"Event: {row['Event name']}\r\n Date : {row['Event date']}"
+        text = "<p>" + row['Event name'] + "<br>" + row['Event date'] + "</p>"
         new_date = convert_date_format(row['Event date'])
 
         # TODO: make this automatic, find all the IATA codes for the nearby airports!
@@ -90,15 +99,26 @@ if __name__ == '__main__':
         dests = find_connected_flights(iata, new_date, new_date)
 
         # This creates the icon, remember that the img_path is a messy variable
-        icon = DivIcon(icon_size=(64, 64), 
-            icon_anchor=(0, 0), 
-            html="<img src='"+ img_path +"' alt=" + text + ">"
-            )
+        icon = DivIcon(icon_size=(40, 40), 
+                        icon_anchor=(13, 40),
+                        html="<img src="+ img_path + ">")
 
-        print(icon)
+        icon_text = DivIcon(icon_anchor=(0,0),
+                            html="<p class='text'><b><em>" + row['City'].replace(' ', '_').replace('-', '_')  + "</em></b></p>")
 
         # Add the marker!
-        folium.Marker(coords[i], icon=icon, tooltip=text).add_to(m)
+        marker_sign = folium.Marker(coords[i], 
+                        icon=icon,  
+                        tooltip=text)
+        #marker_sign.on_click()
+        marker_sign.add_to(m)
+
+
+        marker_text = folium.Marker(coords[i], 
+                        icon=icon_text).add_to(m)
+
+        marker_text.add_to(m)
+        
 
         if len(dests) > 10000:
             for dest in dests:
