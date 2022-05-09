@@ -1,6 +1,4 @@
 import streamlit as st
-from ipyleaflet import Marker
-
 
 def flights_html(origin, dests, prices):
     
