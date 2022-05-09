@@ -1,3 +1,4 @@
 *.swp
 activate
 bin
+__pycache__
