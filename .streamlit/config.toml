@@ -163,7 +163,8 @@
 
 
 [theme]
-primaryColor="#f1dcdc"
+#primaryColor="#f1dcdc"
+primaryColor = '#7792E3'
 backgroundColor="#2d1414"
 secondaryBackgroundColor="#5a81ce"
 textColor="#8c9aef"
@@ -173,7 +174,6 @@ font="serif"
 # The preset Streamlit theme that your custom theme inherits from. One of "light" or "dark".
 
 # Primary accent for interactive elements
-#primaryColor = '#7792E3'
 
 # Background color for the main content area
 #backgroundColor = '#273346'
