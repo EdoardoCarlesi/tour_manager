@@ -9,7 +9,6 @@ from streamlit_folium import st_folium, folium_static
 import matplotlib.pyplot as plt
 from ryanair import Ryanair
 import json
-from ipyleaflet import Marker
 import html_pages
 
 airports = airportsdata.load('IATA')
