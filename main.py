@@ -4,7 +4,7 @@ import pandas as pd
 import shapely
 import folium
 import airportsdata
-from folium.features import DivIcon
+from folium.features import DivIcon, CustomIcon
 from streamlit_folium import st_folium, folium_static
 import matplotlib.pyplot as plt
 from ryanair import Ryanair
@@ -85,7 +85,8 @@ if __name__ == '__main__':
     #img_path = 'http://www.nanowar.it/imgs/N.png'
     #img_path = 'http://www.nanowar.it/imgs/N_icon.png'
     #img_path = 'https://www.nanowar.it/wp-content/uploads/2022/05/N_icon.png'
-    img_path = 'https://www.nanowar.it/wp-content/uploads/2022/05/N_icon_small.png'
+    #img_path = 'https://www.nanowar.it/wp-content/uploads/2022/05/N_icon_small.png'
+    img_path = 'data/N_icon_small.png'
 
     for i, row in df.iterrows():
         #text = f"Event: {row['Event name']}\r\n Date : {row['Event date']}"
@@ -99,9 +100,13 @@ if __name__ == '__main__':
         dests = find_connected_flights(iata, new_date, new_date)
 
         # This creates the icon, remember that the img_path is a messy variable
-        icon = DivIcon(icon_size=(40, 40), 
-                        icon_anchor=(13, 40),
-                        html="<img src="+ img_path + ">")
+        #icon = DivIcon(icon_size=(40, 40), 
+        #                icon_anchor=(13, 40),
+        #                html="<img src="+ img_path + ">")
+
+        icon = CustomIcon(img_path, 
+                        icon_size=(30, 40), 
+                        icon_anchor=(13, 40)) 
 
         icon_text = DivIcon(icon_anchor=(0,0),
                             html="<p class='text'><b><em>" + row['City'].replace(' ', '_').replace('-', '_')  + "</em></b></p>")
