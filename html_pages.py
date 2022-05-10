@@ -18,6 +18,40 @@ def flights_html(origin, dests, prices):
     return html
 
 
+def departures_html(departure):
+
+    html = "<p>" + departure['origin'].upper() + " is connected to: </p><br>"
+
+    for event, date, price in zip(departure['event'], departure['date'], departure['price']):
+        html += "<p><b>------>" + event + "</b> " + str(date) + " flight price: " + str(price) + " euros.</p><br>"
+
+    return html
+
+def concerts_html(data):
+    
+    html = "<table><tr><th>Event </th><th>Date </th><th>City </th><th>Country </th><th> Website</th></tr><br>"
+
+    cols = ['Event date', 'Event name', 'City', 'Country', 'Website']
+
+    for i, event in data.iterrows():
+        html += "<tr>"
+         
+        # Fill the columns of this row
+        for col in cols:
+
+            if col == 'Website':
+                html += "<th><a href='" + event['Website'] + "' target=_blank>LINK</a></th>"
+            else:
+                html += "<th>" + event[col] + " </th>"
+
+        # Skip to a new row
+        html += "</tr>"
+
+    html += "</table>"
+
+    return html
+
+
 def popup_html(event):
     
     html = """

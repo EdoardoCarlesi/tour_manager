@@ -1,4 +1,5 @@
 *.swp
 activate
 bin
+*.pkl
 __pycache__
