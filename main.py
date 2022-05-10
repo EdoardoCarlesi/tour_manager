@@ -335,15 +335,21 @@ if __name__ == '__main__':
     </style> """, unsafe_allow_html=True)
 
 
+    # Band logo
+    st.image('data/Logo-nanowar.png')
+
     # Create the actual streamlit stuff
     st.markdown('<p class="title">TOUR MANAGERS M-APP</p>', unsafe_allow_html=True)
     st.markdown('<p class="text">Catch Nanowar Of Steel on Tour on the wings of a Barbagianni</p>', unsafe_allow_html=True)
 
+    # Initialize and plot the map
     map_init(m)
     folium_static(m, width=800, height=600)
-
+    
+    # Only show these columns in the general table
     col_keep = ['Event date', 'Event name', 'Country', 'City', 'Website']
 
+    st.markdown('<p class="shows"><br>TOUR MANAGERS TOUR</p>', unsafe_allow_html=True)
     concerts_text = html_pages.concerts_html(df)
     st.write(concerts_text, unsafe_allow_html=True)
     countries, cities = sort_departures()
@@ -377,5 +383,5 @@ if __name__ == '__main__':
             st.write(departures_text, unsafe_allow_html=True)
     
 
-    st.markdown('<p class="credits"><br><br>Engineered and coded by Gatto Panceri 666, concept by Tiziana Pinessi</p>', unsafe_allow_html=True)
-    st.markdown('<p class="credits">Check out the freely available <a href="https://github.com/EdoardoCarlesi/tour_manager" target="_blank"> source code </a>or get in touch with the <a href="mailto:gatto@nanowar.it">webmaster</a></p>', unsafe_allow_html=True)
+    st.markdown('<p class="credits"><br><br><br>Engineered and coded by Gatto Panceri 666, concept by Tiziana Pinessi</p>', unsafe_allow_html=True)
+    st.markdown('<p class="credits">For technical questions, check out the freely available <a href="https://github.com/EdoardoCarlesi/tour_manager" target="_blank"> source code </a>or get in touch with the <a href="mailto:gatto@nanowar.it">webmaster</a></p>', unsafe_allow_html=True)
