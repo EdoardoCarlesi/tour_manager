@@ -1,4 +1,4 @@
-# tour_manager
+# TOUR MANAGER
 WebApp to find out details about Nanowar Of Steel shows
 
 Just a quick and dirty streamlit-powered python script to gather information about Nanowar's shows.
