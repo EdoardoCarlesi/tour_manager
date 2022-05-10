@@ -8,7 +8,7 @@ def flights_html(origin, dests, prices):
         html += "<em>Has_Ryanair_connections_to: </em><br><table>"
         
         for dest, price in zip(dests, prices):
-            html += "<tr><p><th>" + dest.replace(' ', '_').replace(',', '') + "</th><th>&nbsp" + str(price) + "<span>&#8364;</span></th></p></tr>"
+            html += "<tr><p><th>" + dest.replace(' ', '_').replace(',', '') + "</th><th>&nbsp" + str(int(price)) + "<span>&#8364;</span></th></p></tr>"
         
         html += "<table>"
 
@@ -19,28 +19,36 @@ def flights_html(origin, dests, prices):
 
 
 def departures_html(departure):
+    """ Given a departure city, show a table with all the available flight connections """
 
-    html = "<p>" + departure['origin'].upper() + " is connected to: </p><br>"
-
-    for event, date, price in zip(departure['event'], departure['date'], departure['price']):
-        html += "<p><b>------>" + event + "</b> " + str(date) + " flight price: " + str(price) + " euros.</p><br>"
+    html = "<p> From <b>" + departure['origin'].upper() + " </b> you can fly to: </p><br>"
+    html = "<table><tr><th> Date </th><th> Event </th><th> Arrival </th><th> Return flight price from </th><th> </th></tr><br>"
+    
+    for event, date, price, airport in zip(departure['event'], departure['date'], departure['price'], departure['event_airport_name']):
+        tag_name = event.replace(' ', '').replace(',', '').lower()
+        html += "<tr><th>" + str(date) + "</th><th>" + event + "</th><th>" + airport['city'] + "</th><th>" + str(int(price)) + "</th><th><a href='#" + tag_name + "'>INFO</a></th></tr>"
 
     return html
 
+
 def concerts_html(data):
-    
-    html = "<table><tr><th>Event </th><th>Date </th><th>City </th><th>Country </th><th> Website</th></tr><br>"
+    """ Just show the concert list """
+
+    html = "<table><tr><th> Date </th><th> Event </th><th>City </th><th>Country </th><th> Website</th></tr><br>"
 
     cols = ['Event date', 'Event name', 'City', 'Country', 'Website']
 
     for i, event in data.iterrows():
-        html += "<tr>"
+        tag_name = event['Event name'].lower().replace(' ', '').replace(',', '')
          
         # Fill the columns of this row
         for col in cols:
 
             if col == 'Website':
                 html += "<th><a href='" + event['Website'] + "' target=_blank>LINK</a></th>"
+            elif col == 'Event date':
+                html += "<th id='" + tag_name + "'>" + event[col] + " </th>"
+
             else:
                 html += "<th>" + event[col] + " </th>"
 

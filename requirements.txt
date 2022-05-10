@@ -1,6 +1,7 @@
 streamlit
 airportsdata
 geopy
+pycountry
 pandas
 matplotlib
 numpy
