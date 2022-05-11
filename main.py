@@ -6,7 +6,7 @@ import folium
 import pycountry
 import airportsdata
 from folium.features import DivIcon, CustomIcon
-from streamlit_folium import st_folium, folium_static
+from streamlit_folium import folium_static
 import matplotlib.pyplot as plt
 from ryanair import Ryanair
 
@@ -326,6 +326,10 @@ if __name__ == '__main__':
     font-size:20px ; font-family: 'Cooper Black'; color: #FFFFFF;} 
     </style> """, unsafe_allow_html=True)
 
+    st.markdown(""" <style> .text2 {
+    font-size:20px ; font-family: 'Cooper Black';} 
+    </style> """, unsafe_allow_html=True)
+
     st.markdown(""" <style> .shows {
     font-size:25px ; font-family: 'Cooper Black'; color: #FF9633;} 
     </style> """, unsafe_allow_html=True)
@@ -340,7 +344,8 @@ if __name__ == '__main__':
 
     # Create the actual streamlit stuff
     st.markdown('<p class="title">TOUR MANAGERS M-APP</p>', unsafe_allow_html=True)
-    st.markdown('<p class="text">Catch Nanowar Of Steel on Tour on the wings of a Barbagianni</p>', unsafe_allow_html=True)
+    st.markdown('<p class="text2">Catch Nanowar Of Steel on Tour on the wings of a Barbagianni</p>', unsafe_allow_html=True)
+    #st.markdown('<p>Catch Nanowar Of Steel on Tour on the wings of a Barbagianni</p>', unsafe_allow_html=True)
 
     # Initialize and plot the map
     map_init(m)
@@ -356,11 +361,11 @@ if __name__ == '__main__':
 
     st.write("<br>", unsafe_allow_html=True)
     st.markdown('<p class="shows"> Find your way to the shows!</p>', unsafe_allow_html=True)
-    st.markdown('<p class="text"> Are you a Nanowarrior looking for a show? If we are not performing anywhere near you, do not worry. </p>', unsafe_allow_html=True)
-    st.markdown('<p class="text"> The TOUR MANAGERS are here to help you!</p>', unsafe_allow_html=True)
-    st.markdown('<p class="text"> Choose your origin country and city, we will show you the cheapest (Ryanair) options for return flights to \
+    st.markdown('<p class="text2"> Are you a Nanowarrior looking for a show? If we are not performing anywhere near you, do not worry. </p>', unsafe_allow_html=True)
+    st.markdown('<p class="text2"> The TOUR MANAGERS are here to help you!</p>', unsafe_allow_html=True)
+    st.markdown('<p class="text2"> Choose your origin country and city, we will show you the cheapest (Ryanair) options for return flights to \
             any of our TOUR MANAGERS shows.</p>', unsafe_allow_html=True)
-    st.markdown('<p class="text"> See you on the road! </p>', unsafe_allow_html=True)
+    st.markdown('<p class="text2"> See you on the road! </p>', unsafe_allow_html=True)
     
     #st.markdown('<p class="text">Select a timespan to perform the search. How many days before a show do you want to leave? How many days after?</p>', unsafe_allow_html=True)
     #col1, col2, col3, col4  = st.columns([1, 1, 1, 5])

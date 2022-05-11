@@ -22,7 +22,7 @@ def departures_html(departure):
     """ Given a departure city, show a table with all the available flight connections """
 
     html = "<p> From <b>" + departure['origin'].upper() + " </b> you can fly to: </p><br>"
-    html = "<table><tr><th> Date </th><th> Event </th><th> Arrival </th><th> Return flight price from </th><th> </th></tr><br>"
+    html = "<table><tr><th> Date </th><th> Event </th><th> Arrival </th><th> Return flight price from </th><th> </th></tr>"
     
     for event, date, price, airport in zip(departure['event'], departure['date'], departure['price'], departure['event_airport_name']):
         tag_name = event.replace(' ', '').replace(',', '').lower()
@@ -34,20 +34,21 @@ def departures_html(departure):
 def concerts_html(data):
     """ Just show the concert list """
 
-    html = "<table><tr><th> Date </th><th> Event </th><th>City </th><th>Country </th><th> Website</th></tr><br>"
+    html = "<table><tr><th> Date </th><th> Event </th><th>City </th><th>Country </th><th> Website</th></tr>"
 
     cols = ['Event date', 'Event name', 'City', 'Country', 'Website']
 
     for i, event in data.iterrows():
-        tag_name = event['Event name'].lower().replace(' ', '').replace(',', '')
+        #tag_name = event['Event name'].lower().replace(' ', '').replace(',', '')
+        tag_name = 'abcde' #event['Event name'].lower().replace(' ', '').replace(',', '')
          
         # Fill the columns of this row
         for col in cols:
 
             if col == 'Website':
-                html += "<th><a href='" + event['Website'] + "' target=_blank>LINK</a></th>"
+                html += "<th><a href='" + event['Website'] + "' target=_blank>LINK</a></th><br>"
             elif col == 'Event date':
-                html += "<th id='" + tag_name + "'>" + event[col] + " </th>"
+                html += "<tr><th id='" + tag_name + "'>" + event[col] + " </th>"
 
             else:
                 html += "<th>" + event[col] + " </th>"
