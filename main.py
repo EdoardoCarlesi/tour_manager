@@ -184,7 +184,7 @@ def create_date_range(date, days_before, days_after):
     return date_from_str, date_to_str
 
 
-def map_init(m):
+def map_init(m, df):
     """ Initialize the map with all the concerts and nearby airports """
 
     img_path = 'data/N_icon_small.png'
@@ -228,6 +228,7 @@ def map_init(m):
             if (len(iata) == 3) and iata.upper() != 'NAN':
                 
                 if iata in airports.keys():
+
                     date_from, date_to = create_date_range(row['Event date'], 7, 7)
                     new_date = convert_date_format(row['Event date'])
                     dests, prices, codes = find_return_flights(iata, date_from, new_date, date_to)
@@ -248,6 +249,26 @@ def map_init(m):
                                                 popup=text_air)
 
                     marker_flight.add_to(m)           
+
+
+def update_flights_time_range(days_before, days_after, df):
+
+    #del departures 
+    departures = dict()
+    
+    for i, row in df.iterrows():
+        event = row['Event name']
+        date = row['Event date']
+        iatas = [str(row['IATA1']), str(row['IATA2']), str(row['IATA3'])]
+
+        for iata in iatas:
+            if (len(iata) == 3) and iata.upper() != 'NAN':
+                if iata in airports.keys():
+                    date_from, date_to = create_date_range(date, days_before, days_after)
+                    new_date = convert_date_format(date)
+                    dests, prices, codes = find_return_flights(iata, date_from, new_date, date_to)
+                    update_departures(codes, dests, prices, iata, event, new_date)
+    return 1
 
 
 def update_departures(codes, dests, prices, iata, event, date):
@@ -340,7 +361,10 @@ if __name__ == '__main__':
 
 
     # Band logo
-    st.image('data/Logo-nanowar.png')
+    #st.image('data/Logo-nanowar.png')
+
+    logo_link = ''
+    st.markdown(logo_link, unsafe_allow_html=True)
 
     # Create the actual streamlit stuff
     st.markdown('<p class="title">TOUR MANAGERS M-APP</p>', unsafe_allow_html=True)
@@ -348,7 +372,7 @@ if __name__ == '__main__':
     #st.markdown('<p>Catch Nanowar Of Steel on Tour on the wings of a Barbagianni</p>', unsafe_allow_html=True)
 
     # Initialize and plot the map
-    map_init(m)
+    map_init(m, df)
     folium_static(m, width=800, height=600)
     
     # Only show these columns in the general table
@@ -367,14 +391,19 @@ if __name__ == '__main__':
             any of our TOUR MANAGERS shows.</p>', unsafe_allow_html=True)
     st.markdown('<p class="text2"> See you on the road! </p>', unsafe_allow_html=True)
     
-    #st.markdown('<p class="text">Select a timespan to perform the search. How many days before a show do you want to leave? How many days after?</p>', unsafe_allow_html=True)
-    #col1, col2, col3, col4  = st.columns([1, 1, 1, 5])
-    #with col1:
-    #    days_before = st.selectbox('Before', [0, 1, 2, 3])
-    #with col2:
-    #    days_after = st.selectbox('After', [0, 1, 2, 3])
-    #if days_before + days_after > 0:
-    #    find_return_flights(code, '19/07/2022', days_before, days_after)
+    st.markdown('<p class="text2">Select a timespan to perform the search. How many days before a show do you want to leave? How many days after?</p>', unsafe_allow_html=True)
+    col1, col2, col3, col4  = st.columns([1, 1, 1, 5])
+    
+    reload_page = 1
+
+    with col1:
+        days_before = st.selectbox('Before', [7,6,5,4,3,2,1,0])
+    with col2:
+        days_after = st.selectbox('After', [7,6,5,4,3,2,1])
+
+    if days_before + days_after != 14:
+        reload_page = 0
+        reload_page = update_flights_time_range(days_before, days_after, df)
 
     choose_country = st.selectbox('Choose a country for your departure:', countries)
     
@@ -384,8 +413,10 @@ if __name__ == '__main__':
         code = city2airports[choose_city]
 
         if code in departures.keys():
-            departures_text = html_pages.departures_html(departures[code])
-            st.write(departures_text, unsafe_allow_html=True)
+
+            if reload_page == 1:
+                departures_text = html_pages.departures_html(departures[code])
+                st.write(departures_text, unsafe_allow_html=True)
     
 
     st.markdown('<p class="credits"><br><br><br>Engineered and coded by Gatto Panceri 666, concept by Tiziana Pinessi</p>', unsafe_allow_html=True)
