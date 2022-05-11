@@ -21,7 +21,7 @@ def flights_html(origin, dests, prices):
 def departures_html(departure):
     """ Given a departure city, show a table with all the available flight connections """
 
-    html = "<p> From <b>" + departure['origin'].upper() + " </b> you can fly to: </p><br>"
+    #html = "<p> From <b>" + departure['origin'].upper() + " </b> you can fly to: </p><br>"
     html = "<table><tr><th> Date </th><th> Event </th><th> Arrival </th><th> Return flight price from </th><th> </th></tr>"
     
     for event, date, price, airport in zip(departure['event'], departure['date'], departure['price'], departure['event_airport_name']):
@@ -46,7 +46,7 @@ def concerts_html(data):
         for col in cols:
 
             if col == 'Website':
-                html += "<th><a href='" + event['Website'] + "' target=_blank>LINK</a></th><br>"
+                html += "<th><a href='" + event['Website'] + "' target=_blank>LINK</a></th>"
             elif col == 'Event date':
                 html += "<tr><th id='" + tag_name + "'>" + event[col] + " </th>"
 
