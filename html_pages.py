@@ -1,4 +1,4 @@
-import streamlit as st
+#import streamlit as st
 
 def flights_html(origin, dests, prices):
     
@@ -21,7 +21,6 @@ def flights_html(origin, dests, prices):
 def departures_html(departure):
     """ Given a departure city, show a table with all the available flight connections """
 
-    #html = "<p> From <b>" + departure['origin'].upper() + " </b> you can fly to: </p><br>"
     html = "<table><tr><th> Date </th><th> Event </th><th> Arrival </th><th> Return flight price from </th><th> </th></tr>"
     
     for event, date, price, airport in zip(departure['event'], departure['date'], departure['price'], departure['event_airport_name']):
@@ -39,23 +38,18 @@ def concerts_html(data):
     cols = ['Event date', 'Event name', 'City', 'Country', 'Website']
 
     for i, event in data.iterrows():
-        #tag_name = event['Event name'].lower().replace(' ', '').replace(',', '')
-        tag_name = 'abcde' #event['Event name'].lower().replace(' ', '').replace(',', '')
+        tag_name = event['Event name'].lower().replace(' ', '').replace(',', '')
+        html += "<tr id='" + tag_name + "'>"
          
         # Fill the columns of this row
         for col in cols:
-
             if col == 'Website':
                 html += "<th><a href='" + event['Website'] + "' target=_blank>LINK</a></th>"
-            elif col == 'Event date':
-                html += "<tr><th id='" + tag_name + "'>" + event[col] + " </th>"
-
             else:
                 html += "<th>" + event[col] + " </th>"
 
         # Skip to a new row
         html += "</tr>"
-
     html += "</table>"
 
     return html
@@ -89,8 +83,6 @@ def popup_html(event):
 
     </table>
     """
-
-    #st.button('Show Airports', on_click=click_action)
 
     return html
 

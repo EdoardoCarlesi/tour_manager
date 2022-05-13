@@ -1,5 +1,7 @@
 *.swp
 activate
 bin
+*driver
+*.log
 *.pkl
 __pycache__

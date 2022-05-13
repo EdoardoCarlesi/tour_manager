@@ -416,6 +416,7 @@ def main():
             days_after = st.selectbox('Days after the show', [144])
 
         elif choose_country == 'Germany':
+            search_timeframe = st.checkbox('Search over time range. If not selected, it will only look for flights on the exact number of days before/after the show.', value=True)
             days_before = st.selectbox('Days before the show', [1, 2, 3, 28])
             days_after = st.selectbox('Days after the show', [1, 2, 3, 28])
 
@@ -455,10 +456,10 @@ def main():
                 departures_text = '<br><b>Are you ready to land a shuttle on Uranus? The tickets are paid by the tooth fairy!</b>'
                 
             elif choose_city == 'Busto Arsizio':
-                    departures_text = '<br><b>Flying from the Glory Of Busto Arsizio is always free of charge<b>'
+                departures_text = '<br><b>Flying from the Glory Of Busto Arsizio is always free of charge<b>'
             
             elif choose_city == 'Formia':
-                    departures_text = '<br><b>Formia is a FINAL destination, you cannot fly anywhere from there<b>'
+                departures_text = '<br><b>Formia is a FINAL destination, you cannot fly anywhere from there<b>'
             else:
                 # This clears the departures dict() from all the previous entries
                 reset_vars()
