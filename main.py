@@ -28,10 +28,21 @@ city2airports = dict()
 event_airports_list = []
 countries_list = []
 
+# Drop some easter eggs
+fictional_countries = ['Liechtenstein', 'Jugoslavija', 'Hujzbekistan']
+special_countries = ['Italy', 'Germany', 'Spain', 'Liechtenstein', 'Jugoslavija', 'Hujzbekistan']
+special_cities = dict()
+
+special_cities['Italy'] = ['Formia', 'Busto Arsizio']
+special_cities['Germany'] = ['Freiburg im Geilsgau']
+special_cities['Spain'] = ['Maricon']
+special_cities['Liechtenstein'] = ['Vaduz', 'Downtown Schaan']
+special_cities['Jugoslavija'] = ['Crnogradska Oblast', 'Kitograd']
+special_cities['Hujzbekistan'] = ['Hujguryetski International Spaceport']
+
 # Reset global variables
 def reset_vars():
     departures.clear()
-
 
 @st.cache
 def safe_call_ryanair_return_apis(airport_code, date_from, date_to, return_from, return_to):
@@ -41,18 +52,7 @@ def safe_call_ryanair_return_apis(airport_code, date_from, date_to, return_from,
     f_name = 'ryan_return_' + airport_code + date_from + date_to + date_today + '.pkl'
     f_tmp = os.path.join('tmp', f_name)
     trips = ryanair.get_return_flights(airport_code, date_from, date_to, return_from, return_to)
-
     
-    #if not os.path.isfile(f_tmp):
-    #    trips = ryanair.get_return_flights(airport_code, date_from, date_to, return_from, return_to)
-        
-    #    with open(f_tmp, 'wb') as f:
-    #        pkl.dump(trips, f)
-    #else:
-    #    with open(f_tmp, 'rb') as f:
-    #        trips = pkl.load(f)
-    
-
     return trips
 
 
@@ -102,6 +102,7 @@ def find_return_flights(airport_code, date_from, date_to, date_event=None):
 def iata2gps(airport):
     return [airports[airport]['lat'], airports[airport]['lon']]
 
+
 def geocode_address(row=None, address=None):
     address = row['City'] + ' ' + row['Country']
 
@@ -119,7 +120,9 @@ def geocode_address(row=None, address=None):
 
 
 def get_nearby_airport_code(city, country):
+    # TODO
     pass
+
 
 def convert_date_format(date):
     return date[-4:] + '-' + date[3:5] + '-' + date[0:2]
@@ -142,6 +145,9 @@ def map_init(m, df):
     coords = []
     img_path = 'data/N_icon_small.png'
     img_air_path = 'data/B_icon.png'
+
+    concert_group = folium.FeatureGroup(name='Show shows').add_to(m)
+    airport_group = folium.FeatureGroup(name='Show airports', show=False).add_to(m)
 
     # Geolocate all the gigs
     for i, row in df.iterrows():
@@ -166,18 +172,14 @@ def map_init(m, df):
                             html="<p class='text'><b><em>" + row['City'].replace(' ', '_').replace('-', '_')  + "</em></b></p>")
     
 
-        concert_group = folium.FeatureGroup(name='Concerts').add_to(m)
-        airport_group = folium.FeatureGroup(name='Airports', show=False).add_to(m)
 
         # Add the marker for the CONCERT location
         concert_marker = folium.Marker(coords[i], icon=icon_show, popup=popup_text, tooltip=text)
-        #concert_group.add_child(concert_marker)
-        concert_marker.add_to(m)
+        concert_group.add_child(concert_marker)
 
         # Add the location's name
         concert_text = folium.Marker(coords[i], popup=popup_text, icon=icon_text)
-        #concert_group.add_child(concert_text)
-        concert_text.add_to(m)
+        concert_group.add_child(concert_text)
 
         # Find the ryanair destinations
         for iata in iatas:
@@ -192,18 +194,19 @@ def map_init(m, df):
                     dests, prices, codes = find_return_flights(iata, date_from, date_to, date_event=new_date)
                     update_departures(codes, dests, prices, iata, event, new_date)
 
+                    # Find the coordinate pair of the airport given its code
                     gps1 = iata2gps(iata)
                     
+                    # Add a customized icon and some popup informations for the airport
                     air_name = airports[iata]['name']
                     air_text = html_pages.flights_html(airports[iata]['name'], dests, prices)
                     air_icon = CustomIcon(img_air_path, icon_size=(27, 38), icon_anchor=(13, 40)) 
                     
                     # Add a marker to the nearby airports
                     air_marker = folium.Marker(gps1, icon=air_icon, tooltip=air_name, popup=air_text)
-                    #airport_group.add_child(air_marker)           
-                    air_marker.add_to(m)           
+                    airport_group.add_child(air_marker)           
 
-        #folium.LayerControl().add_to(m)
+    folium.LayerControl().add_to(m)
 
 
 
@@ -252,7 +255,9 @@ def update_departures(codes, dests, prices, iata, event, date):
             departures[code]['event_airport'] = [iata]
             departures[code]['event_airport_name'] = [airports[iata]]
 
+
 def sort_departures():
+    """ Sort departure locations by city name """
 
     countries_fullname = []
     country2short = dict()
@@ -262,17 +267,34 @@ def sort_departures():
         countries_fullname.append(country_name)
         country2short[country_name] = country 
 
+    for special in special_countries:
+        countries_fullname.append(special)
+
     countries = set(countries_fullname)
     countries = sorted(countries)
     cities = dict()
 
     for country in countries:
-        cities[country] = sorted(cities_list[country2short[country]])
+        if country in special_countries:
+            for city in special_cities[country]:
+                if country not in fictional_countries:
+                    cities_list[country2short[country]].append(city)
+                else:
+                    if country in cities_list.keys():
+                        cities_list[country].append(city)
+                    else:
+                        cities_list[country] = [city]
+
+        if country not in fictional_countries:
+            cities[country] = sorted(cities_list[country2short[country]])
 
     return countries, cities
 
 
 def main():
+    """ Wrapper """
+
+    # TODO make this a function that scrapes the gigs from SONGKICK
     csv = 'data/Tour-dates.csv'
     df = pd.read_csv(csv, sep=';')
     reset_vars()
@@ -281,20 +303,22 @@ def main():
     eu_center = {'Country':'Germany', 'City':'Darmstadt'}
     map_center = geocode_address(eu_center)
 
-    #tile = 'Stamen Toner'
+    # This tile style is so FEUDALE
     tile = 'stamenwatercolor'
 
-    # Create the folium map!
-    m = folium.Map(location=[map_center.y, map_center.x], 
-                    tiles=tile,
-                    zoom_start=5) 
+    # Create the folium map. We don't want the tile name to appear in the legend so we initialize it separately
+    m = folium.Map(location=[map_center.y, map_center.x], tiles=None, zoom_start=5) 
+    tile_layer = folium.TileLayer(tiles=tile, control=False)
+    tile_layer.add_to(m)
 
+    #st.set_page_title('In The Sky Scanner')
+    img_air_path = 'data/B_icon.png'
+    st.set_page_config(page_title='In The Sky Scanner', page_icon=img_air_path)
+
+
+    # Define some custom styles for the fonts to be used
     st.markdown(""" <style> .title {
     font-size:50px ; font-family: 'Cooper Black'; color: #FF9633;} 
-    </style> """, unsafe_allow_html=True)
-
-    st.markdown(""" <style> .text {
-    font-size:20px ; font-family: 'Cooper Black'; color: #FFFFFF;} 
     </style> """, unsafe_allow_html=True)
 
     st.markdown(""" <style> .text2 {
@@ -309,17 +333,16 @@ def main():
     font-size:12px ; font-family: 'Cooper Black'; color: #FF9633;} 
     </style> """, unsafe_allow_html=True)
 
-
     # Band logo
     st.image('data/Logo-nanowar.png')
 
+    # TODO make this an image with an embedded href link to www.nanowar.it
     #logo_link = ''
     #st.markdown(logo_link, unsafe_allow_html=True)
 
     # Create the actual streamlit stuff
     st.markdown('<p class="title">IN THE SKY SCANNER</p>', unsafe_allow_html=True)
     st.markdown('<p class="text2">Catch Nanowar Of Steel on Tour on the wings of a Barbagianni</p>', unsafe_allow_html=True)
-    #st.markdown('<p>Catch Nanowar Of Steel on Tour on the wings of a Barbagianni</p>', unsafe_allow_html=True)
 
     # Initialize and plot the map
     map_init(m, df)
@@ -328,12 +351,13 @@ def main():
     # Only show these columns in the general table
     col_keep = ['Event date', 'Event name', 'Country', 'City', 'Website']
 
+    # Write stuff on the home page
     st.markdown('<p class="shows"><br>TOUR MANAGERS TOUR</p>', unsafe_allow_html=True)
-    print('STREAMLIT TOUR MANAGERS')
     concerts_text = html_pages.concerts_html(df)
     st.write(concerts_text, unsafe_allow_html=True)
     countries, cities = sort_departures()
 
+    # Basic information on the website
     st.write("<br>", unsafe_allow_html=True)
     st.markdown('<p class="shows"> Find your way to the shows!</p>', unsafe_allow_html=True)
     st.markdown('<p class="text2"> Are you a Nanowarrior looking for a show? If we are not performing anywhere near you, do not worry. </p>', unsafe_allow_html=True)
@@ -344,19 +368,22 @@ def main():
     
     st.markdown('<p class="text2">Select a timespan to perform the search. How many days before a show do you want to leave? How many days after?</p>', unsafe_allow_html=True)
     col1, col2, col3, col4, col5  = st.columns([1, 1, 3, 3, 2])
-    
+ 
+    # Initialize empty text
     departures_text = ''
 
-    #print(departures)
-
+    # Refresh the flight connections, if search_timeframe=True it means we won't query the exact dates but a range of dates
     def refresh_connections(search_timeframe): 
         print('Refreshing flight connections...')
+        departures_text = '<p><b>NO CONNECTIONS AVAILABLE FROM THE SELECTED CITY FOR THE SELECTED DATES </b></p>'
 
         try:
             update_flights_time_range(days_before, days_after, df, date_event=search_timeframe)
             success = True
+            print('Flights updated for the specified time range') 
         except:
-            departures_text = '<p><b>NO CONNECTIONS AVAILABLE FOR THE SELECTED DATES </b></p>'
+            success = False
+            print('Flights update did not succeed, maybe there are no connections during the selected dates')
         
         if success:
             code = city2airports[choose_city]
@@ -366,30 +393,78 @@ def main():
 
         return departures_text
 
-    #countries = ['Liechtenstein', 'Austria']
-    #cities = {'Liechtenstein':['Formia'], 'Austria':['Vienna']}
-
-
+    # We need to do two separate forms, otherwise the city will not be refreshed correctly
     with st.form('country'):
-        choose_country = st.selectbox('Departure country:', countries)
+        choose_country = st.selectbox('Choose your country of departure:', countries)
         out1 = st.form_submit_button('Refresh city list')
 
 
+    # This second form has to be reloaded once the country has been chosen, otherwise streamlit won't updade the dict cities[country] in real time
     with st.form('city'):
-        search_timeframe = st.checkbox('Search over time span (if not selected search exact dates)', value=True)
-        days_before = st.selectbox('Before', [7,6,5,4,3,2,1,0])
-        days_after = st.selectbox('After', [7,6,5,4,3,2,1])
-        choose_city = st.selectbox('Departure city: ', cities[choose_country])
+
+        if choose_country not in fictional_countries:
+            choose_city = st.selectbox('Select your city of departure: ', cities[choose_country])
+        else:
+            choose_city = st.selectbox('Select your city of departure: ', special_cities[choose_country])
+
+        if choose_country == 'Liechtenstein':
+            days_before = st.selectbox('Days before the show', [1, 2, 7, 160])
+            days_after = st.selectbox('Days after the show', [1, 2, 7, 160])
+
+        elif choose_country == 'Jugoslavija':
+            days_before = st.selectbox('Days before the show', [166])
+            days_after = st.selectbox('Days after the show', [144])
+
+        elif choose_country == 'Germany':
+            days_before = st.selectbox('Days before the show', [1, 2, 3, 28])
+            days_after = st.selectbox('Days after the show', [1, 2, 3, 28])
+
+        elif choose_country == 'Hujzbekistan':
+            days_before = st.selectbox('Days before the show', [144])
+            days_after = st.selectbox('Days after the show', [166])
+
+        else:
+            search_timeframe = st.checkbox('Search over time range. If not selected, it will only look for flights on the exact number of days before/after the show.', value=True)
+            days_before = st.selectbox('Days before the show', [7,6,5,4,3,2,1,0])
+            days_after = st.selectbox('Days after the show', [7,6,5,4,3,2,1])
+        
         out2 = st.form_submit_button('Submit')
 
+        # When pressing submit do the actual research
         if out2:
-            reset_vars()
-            departures_text = refresh_connections(search_timeframe)
-            #print(departures)
-            st.write(departures_text, unsafe_allow_html=True)
 
-    #st.write(departures_text, unsafe_allow_html=True)
-    #st.stop()
+            if choose_city == 'Vaduz':
+                departures_text = '<br><b>You cannot really fly anywhere from Liechtenstein but you can still get the A13.</b>'
+
+            elif choose_city == 'Downtown Schaan':
+                departures_text = '<br><b>Where do you think you are going? Stay here and enjoy the busty Liechtensteinerinnen!</b>'
+
+            elif choose_city == 'Crnogradska Oblast':
+                departures_text = '<br><b>Kita</b>'
+
+            elif choose_city == 'Kitograd':
+                departures_text = '<br><b>Kurac</b>'
+
+            elif choose_city == 'Maricon':
+                departures_text = '<br><b>Aqui tenemos solo chorizo humano, no hay vuelos</b>'
+
+            elif choose_city == 'Freiburg im Geilsgau':
+                departures_text = '<br><b>Hier kosten die Reise nur Schwanzig euro! Schwanztastisch</b>'
+
+            elif choose_country == 'Hujzbekistan':
+                departures_text = '<br><b>Are you ready to land a shuttle on Uranus? The tickets are paid by the tooth fairy!</b>'
+                
+            elif choose_city == 'Busto Arsizio':
+                    departures_text = '<br><b>Flying from the Glory Of Busto Arsizio is always free of charge<b>'
+            
+            elif choose_city == 'Formia':
+                    departures_text = '<br><b>Formia is a FINAL destination, you cannot fly anywhere from there<b>'
+            else:
+                # This clears the departures dict() from all the previous entries
+                reset_vars()
+                departures_text = refresh_connections(search_timeframe)
+            
+            st.write(departures_text, unsafe_allow_html=True)
 
     st.markdown('<p class="credits"><br><br><br>Engineered and coded by Gatto Panceri 666, concept by Tiziana Pinessi</p>', unsafe_allow_html=True)
     st.markdown('<p class="credits">For technical questions, check out the freely available <a href="https://github.com/EdoardoCarlesi/tour_manager" target="_blank"> source code </a>or get in touch with the <a href="mailto:gatto@nanowar.it">webmaster</a></p>', unsafe_allow_html=True)
