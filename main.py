@@ -19,6 +19,7 @@ import os
 
 # Local imports 
 import html_pages
+import edit_data as ed
 
 # These variables will be used throughout the script
 airports = airportsdata.load('IATA')
@@ -28,9 +29,14 @@ city2airports = dict()
 event_airports_list = []
 countries_list = []
 
-# Drop some easter eggs
-fictional_countries = ['Liechtenstein', 'Jugoslavija', 'Hujzbekistan']
-special_countries = ['Italy', 'Germany', 'Spain', 'Liechtenstein', 'Jugoslavija', 'Hujzbekistan']
+#Drop some easter eggs
+fictional_countries = ['Liechtenstein', 'Jugoslavija', 'Hujzbekistan', 'Nicaragua', 'Azerbaijan', 'Special Administrative Regions of Southern China']
+
+special_countries = ['Italy', 'Germany', 'Spain']
+
+for fict in fictional_countries:
+    special_countries.append(fict)
+
 special_cities = dict()
 
 special_cities['Italy'] = ['Formia', 'Busto Arsizio']
@@ -39,8 +45,27 @@ special_cities['Spain'] = ['Maricon']
 special_cities['Liechtenstein'] = ['Vaduz', 'Downtown Schaan']
 special_cities['Jugoslavija'] = ['Crnogradska Oblast', 'Kitograd']
 special_cities['Hujzbekistan'] = ['Hujguryetski International Spaceport']
+special_cities['Special Administrative Regions of Southern China'] = ['The Hunter Of The Night Airport']
+special_cities['Nicaragua'] = ['404 NOT FOUND']
+special_cities['Azerbaijan'] = ['404 NOT FOUND']
 
-# Reset global variables
+
+def update_airport_event_distance(data=None, departure=None):
+
+    for event in departure['event']:
+        distances = ed.str2list(data[data['Event name'] == event]['distances'].values[0])
+        near_airports = ed.str2list(data[data['Event name'] == event]['IATA'].values[0])
+
+        for distance, airp in zip(distances, near_airports):
+            if airp in departure['event_airport']:
+                if 'distance_to_event' not in departure.keys():
+                    departure['distance_to_event'] = [distance]
+                else:
+                    departure['distance_to_event'].append(distance)
+
+    return departure
+
+# Reset some variables at each update / refresh
 def reset_vars():
     departures.clear()
 
@@ -80,6 +105,11 @@ def find_return_flights(airport_code, date_from, date_to, date_event=None):
         # Check that the destination airport is legit so we can get some info
         if flight.destination in airports.keys():
             this_city = airports[flight.destination]['city']
+
+            # There is some name mismatch somewhere so let's just fix this
+            if this_city == 'Rome':
+                this_city = 'Roma'
+
             this_country = airports[flight.destination]['country']
             countries_list.append(this_country)
 
@@ -119,11 +149,6 @@ def geocode_address(row=None, address=None):
     return coord['geometry'].values[0]
 
 
-def get_nearby_airport_code(city, country):
-    # TODO
-    pass
-
-
 def convert_date_format(date):
     return date[-4:] + '-' + date[3:5] + '-' + date[0:2]
 
@@ -159,12 +184,10 @@ def map_init(m, df):
         event = row['Event name']
         text = "<p>" + event + "</p>"
 
-        event_airports_list.append(row['IATA1'])
-        event_airports_list.append(row['IATA2'])
-        event_airports_list.append(row['IATA3'])
+        for iata in ed.str2list(row['IATA']):
+            event_airports_list.append(iata)
 
-        # TODO: make this automatic, find all the IATA codes for the nearby airports!
-        iatas = [str(row['IATA1']), str(row['IATA2']), str(row['IATA3'])]
+        iatas = ed.str2list(row['IATA'])
         popup_text = html_pages.popup_html(row)
 
         icon_show = CustomIcon(img_path, icon_size=(27, 38), icon_anchor=(13, 40)) 
@@ -215,7 +238,7 @@ def update_flights_time_range(days_before, days_after, df, date_event=False):
     for i, row in df.iterrows():
         event = row['Event name']
         date = row['Event date']
-        iatas = [str(row['IATA1']), str(row['IATA2']), str(row['IATA3'])]
+        iatas = ed.str2list(row['IATA'])
 
         for iata in iatas:
             if (len(iata) == 3) and iata.upper() != 'NAN':
@@ -278,7 +301,9 @@ def sort_departures():
         if country in special_countries:
             for city in special_cities[country]:
                 if country not in fictional_countries:
+
                     cities_list[country2short[country]].append(city)
+
                 else:
                     if country in cities_list.keys():
                         cities_list[country].append(city)
@@ -296,7 +321,8 @@ def main():
 
     # TODO make this a function that scrapes the gigs from SONGKICK
     csv = 'data/Tour-dates.csv'
-    df = pd.read_csv(csv, sep=';')
+    #df = pd.read_csv(csv, sep=';')
+    df = pd.read_csv(csv)
     reset_vars()
 
     # Center the map on some city around the center of Europe
@@ -314,7 +340,6 @@ def main():
     #st.set_page_title('In The Sky Scanner')
     img_air_path = 'data/B_icon.png'
     st.set_page_config(page_title='In The Sky Scanner', page_icon=img_air_path)
-
 
     # Define some custom styles for the fonts to be used
     st.markdown(""" <style> .title {
@@ -389,7 +414,8 @@ def main():
             code = city2airports[choose_city]
 
             if code in departures.keys():
-                departures_text = html_pages.departures_html(departures[code])
+                departure = update_airport_event_distance(data=df, departure=departures[code])
+                departures_text = html_pages.departures_html(departure)
 
         return departures_text
 
@@ -402,18 +428,25 @@ def main():
     # This second form has to be reloaded once the country has been chosen, otherwise streamlit won't updade the dict cities[country] in real time
     with st.form('city'):
 
+        submit_text = 'Submit'
+
+        # This is the standard behavior
         if choose_country not in fictional_countries:
             choose_city = st.selectbox('Select your city of departure: ', cities[choose_country])
+
+        # Special cities are stored in a separate dictionary
         else:
             choose_city = st.selectbox('Select your city of departure: ', special_cities[choose_country])
 
         if choose_country == 'Liechtenstein':
             days_before = st.selectbox('Days before the show', [1, 2, 7, 160])
             days_after = st.selectbox('Days after the show', [1, 2, 7, 160])
+            submit_text = 'Hail!'
 
         elif choose_country == 'Jugoslavija':
             days_before = st.selectbox('Days before the show', [166])
             days_after = st.selectbox('Days after the show', [144])
+            submit_text = 'Kita!'
 
         elif choose_country == 'Germany':
             search_timeframe = st.checkbox('Search over time range. If not selected, it will only look for flights on the exact number of days before/after the show.', value=True)
@@ -423,13 +456,20 @@ def main():
         elif choose_country == 'Hujzbekistan':
             days_before = st.selectbox('Days before the show', [144])
             days_after = st.selectbox('Days after the show', [166])
+            submit_text = '8===D'
+    
+        elif choose_country in ['Nicaragua', 'Azerbaijan']:
+            submit_text = 'This is not a submit button'
 
+        elif choose_country == 'Special Administrative Regions of Southern China':
+            submit_text = 'Fly!'
+            
         else:
             search_timeframe = st.checkbox('Search over time range. If not selected, it will only look for flights on the exact number of days before/after the show.', value=True)
             days_before = st.selectbox('Days before the show', [7,6,5,4,3,2,1,0])
             days_after = st.selectbox('Days after the show', [7,6,5,4,3,2,1])
         
-        out2 = st.form_submit_button('Submit')
+        out2 = st.form_submit_button(submit_text) 
 
         # When pressing submit do the actual research
         if out2:
