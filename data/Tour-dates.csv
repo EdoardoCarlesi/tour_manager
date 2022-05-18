@@ -1,22 +1,22 @@
-﻿Event name;Event date;Country;Zip code;City;IATA1;IATA2;IATA3;Address;Website;
-Festival Fosa de Frikis;28/05/2022;Spain;28005;Madrid;TOJ;MAD;;Paseo Bajo de la Virgen del Puerto, S/N;https://www.facebook.com/FestivalFosadeFrikis/?ref=page_internal;
-Parma Nerd Fest;11/06/2022;Italy;43126;Parma;PMF;BGY;LIN;Viale Delle Esposizioni, 393a;https://www.facebook.com/parmanerdfest;
-Hellfest;16/06/2022;France;44190;Clisson;NTE;PIS;;Rue du Champ Louet;https://www.hellfest.fr/en/;
-B.EST Rock Festival;25/06/2022;Italy;23010;Berbenno di Valtellina;BGY;LIN;MXP;Via Roma, 243;https://www.facebook.com/b.estrockfestival/;
-Plane'r Rest;01/07/2022;France;69124 ;Colombier-Saugnieu;GNB;CFE;;Chemin des Salines;https://planerfest.com/en/;
-Khal'Fest;02/07/2022;Switzerland;1337;Vallorbe;DLE;BSL;;Chemin des Fontaines;https://www.facebook.com/events/chemin-des-fontaines-1337-vallorbe/khalfest-avec-ultra-vomit-et-tagada-jones/577393259467167/;
-Dong Open Air 2022;15/07/2022;Germany;47506 ;Neukirchen;DTM;FMO;CGN;Zur Himmelstreppe;https://www.dongopenair.de/de/home/index;
-Parco Tittoni;22/07/2022;Italy;20832 ;Desio;BGY;LIN;MXP;Via Lampugnani 62;https://www.parcotittoni.it/nanowarofsteel/;
-La Notte Nera;23/07/2022;Italy;35131;Padova;TSF;VNC;VRN;via Del Pescarotto;https://www.facebook.com/events/1971812976355947/?acontext=%7B%22event_action_history%22%3A[%7B%22surface%22%3A%22page%22%7D]%7D;
-Borderline Rock Fest;24/07/2022;Italy;56125 ;Pisa;PSA;;;Lungarno Leonardo Fibonacci, 2;https://www.facebook.com/events/1080995532450365/?ref=newsfeed;
-Metaldays;26/07/2022;Slovenia;5220;Tolmin;TRS;KLU;;Dijaška ulica 18 ;https://www.metaldays.net/;
-Sabaton Open Air 2022;04/08/2022;Sweden;791 83;Falun ;SMP;BMA;ORB;Lugnetvägen 83;https://sabatonopenair.net/?lang=en;
-Montelago Celtic Festival;05/08/2022;Italy;62038;Serravalle di Chienti;AOI;PEG;;Località taverne;https://www.montelagocelticfestival.it/;
-Rock n' Beer;06/08/2022;Italy;7039;Valledoria;AHO;;;Corso Europa;https://www.rocknbeer.it/;
-Bloodstock Open Air;11/08/2022;United Kingdom;DE12 8LN;Walton-on-Trent;BHX;MAN;EMA;Catton Park;https://www.bloodstock.uk.com/;
-Summer Breeze;19/08/2022;Germany;91550;Dinkelsbühl;NUE;;;Flugplatzstr. 1;https://www.summer-breeze.de/de/;
-Musigburg;20/08/2022;Switzerland;4663;Aarburg;BSL;;;Bahnhofstrasse 50;https://musigburg.ch/musigburgevents/nanowar-of-steel/?occurrence=2022-08-20;
-Frogstock Festival;25/08/2022;Italy;48025;Riolo Terme;BLQ;RMI;;Parco Fluviale, via Firenze 18/d;https://www.frogstock.it/;
-FdB Festival;27/08/2022;Italy;1034;Fabrica di Roma;CIA;FCO;;Via Lazio, 101 ;https://www.facebook.com/FdBFestival;
-Feffarkhorn;10/09/2022;Italy;31010 ;Cimadolmo;VNC;TSF;;Via Bortolina;https://www.facebook.com/feffarkhorn/;
-The Garage;01/10/2022;Malta;9912 1899;Haz-Zebbug;MLA;;;The Garage;https://www.facebook.com/events/1618638218338458/?acontext=%7B%22event_action_history%22%3A[%7B%22surface%22%3A%22page%22%7D]%7D;
+Event name,Event date,Country,Zip code,City,Address,Website,IATA,distances
+Festival Fosa de Frikis,28/05/2022,Spain,28005,Madrid,"Paseo Bajo de la Virgen del Puerto, S/N",https://www.facebook.com/FestivalFosadeFrikis/?ref=page_internal,"['TOJ', 'MAD', nan]","[25, 16, -10]"
+Parma Nerd Fest,11/06/2022,Italy,43126,Parma,"Viale Delle Esposizioni, 393a",https://www.facebook.com/parmanerdfest,"['PMF', 'BGY', 'LIN']","[2, 104, 106]"
+Hellfest,16/06/2022,France,44190,Clisson,Rue du Champ Louet,https://www.hellfest.fr/en/,"['NTE', 'PIS', nan]","[26, 132, -10]"
+B.EST Rock Festival,25/06/2022,Italy,23010,Berbenno di Valtellina,"Via Roma, 243",https://www.facebook.com/b.estrockfestival/,"['BGY', 'LIN', 'MXP']","[55, 88, 98]"
+Plane'r Rest,01/07/2022,France,69124 ,Colombier-Saugnieu,Chemin des Salines,https://planerfest.com/en/,"['GNB', 'CFE', nan]","[43, 151, -10]"
+Khal'Fest,02/07/2022,Switzerland,1337,Vallorbe,Chemin des Fontaines,https://www.facebook.com/events/chemin-des-fontaines-1337-vallorbe/khalfest-avec-ultra-vomit-et-tagada-jones/577393259467167/,"['DLE', 'BSL', nan]","[81, 131, -10]"
+Dong Open Air 2022,15/07/2022,Germany,47506 ,Neukirchen,Zur Himmelstreppe,https://www.dongopenair.de/de/home/index,"['DTM', 'FMO', 'CGN']","[140, 181, 154]"
+Parco Tittoni,22/07/2022,Italy,20832 ,Desio,Via Lampugnani 62,https://www.parcotittoni.it/nanowarofsteel/,"['BGY', 'LIN', 'MXP']","[38, 19, 38]"
+La Notte Nera,23/07/2022,Italy,35131,Padova,via Del Pescarotto,https://www.facebook.com/events/1971812976355947/?acontext=%7B%22event_action_history%22%3A[%7B%22surface%22%3A%22page%22%7D]%7D,"['TSF', 'VNC', 'VRN']","[34, -10, 78]"
+Borderline Rock Fest,24/07/2022,Italy,56125 ,Pisa,"Lungarno Leonardo Fibonacci, 2",https://www.facebook.com/events/1080995532450365/?ref=newsfeed,"['PSA', nan, nan]","[3, -10, -10]"
+Metaldays,26/07/2022,Slovenia,5220,Tolmin,Dijaška ulica 18 ,https://www.metaldays.net/,"['TRS', 'KLU', nan]","[43, 69, -10]"
+Sabaton Open Air 2022,04/08/2022,Sweden,791 83,Falun ,Lugnetvägen 83,https://sabatonopenair.net/?lang=en,"['ARN', 'BMA', 'ORB']","[-10, 190, 159]"
+Montelago Celtic Festival,05/08/2022,Italy,62038,Serravalle di Chienti,Località taverne,https://www.montelagocelticfestival.it/,"['AOI', 'PEG', nan]","[74, 33, -10]"
+Rock n' Beer,06/08/2022,Italy,7039,Valledoria,Corso Europa,https://www.rocknbeer.it/,"['AHO', nan, nan]","[55, -10, -10]"
+Bloodstock Open Air,11/08/2022,United Kingdom,DE12 8LN,Walton-on-Trent,Catton Park,https://www.bloodstock.uk.com/,"['BHX', 'MAN', 'EMA']","[34, 77, 24]"
+Summer Breeze,19/08/2022,Germany,91550,Dinkelsbühl,Flugplatzstr. 1,https://www.summer-breeze.de/de/,"['NUE', nan, nan]","[68, -10, -10]"
+Musigburg,20/08/2022,Switzerland,4663,Aarburg,Bahnhofstrasse 50,https://musigburg.ch/musigburgevents/nanowar-of-steel/?occurrence=2022-08-20,"['BSL', nan, nan]","[41, -10, -10]"
+Frogstock Festival,25/08/2022,Italy,48025,Riolo Terme,"Parco Fluviale, via Firenze 18/d",https://www.frogstock.it/,"['BLQ', 'RMI', nan]","[45, 76, -10]"
+FdB Festival,27/08/2022,Italy,1034,Fabrica di Roma,"Via Lazio, 101 ",https://www.facebook.com/FdBFestival,"['CIA', 'FCO', nan]","[15, 22, -10]"
+Feffarkhorn,10/09/2022,Italy,31010 ,Cimadolmo,Via Bortolina,https://www.facebook.com/feffarkhorn/,"['VCE', 'TSF', nan]","[-10, 19, -10]"
+The Garage,01/10/2022,Malta,9912 1899,Haz-Zebbug,The Garage,https://www.facebook.com/events/1618638218338458/?acontext=%7B%22event_action_history%22%3A[%7B%22surface%22%3A%22page%22%7D]%7D,"['MLA', nan, nan]","[3, -10, -10]"
