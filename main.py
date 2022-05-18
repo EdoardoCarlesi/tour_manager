@@ -501,6 +501,9 @@ def main():
             elif choose_city == 'Busto Arsizio':
                 departures_text = '<br><b>Flying from the Glory Of Busto Arsizio is always free of charge<b>'
             
+            elif choose_city == 'Hunter Of The Night Airport':
+                departures_text = '<br><b>You can fly to Laos, Paraguay or Dutch Guyana from here! Enjoy!'
+            
             elif choose_city == 'Formia':
                 departures_text = '<br><b>Formia is a FINAL destination, you cannot fly anywhere from there<b>'
             else:
