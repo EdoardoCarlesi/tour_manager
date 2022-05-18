@@ -334,14 +334,17 @@ def main():
     </style> """, unsafe_allow_html=True)
 
     # Band logo
-    st.image('data/Logo-nanowar.png')
+    #st.image('data/Logo-nanowar.png')
+    
+    # SITE LOGO
+    st.image('data/intheskyscanner_logo.png')
 
     # TODO make this an image with an embedded href link to www.nanowar.it
     #logo_link = ''
     #st.markdown(logo_link, unsafe_allow_html=True)
 
     # Create the actual streamlit stuff
-    st.markdown('<p class="title">IN THE SKY SCANNER</p>', unsafe_allow_html=True)
+    #st.markdown('<p class="title">IN THE SKY SCANNER</p>', unsafe_allow_html=True)
     st.markdown('<p class="text2">Catch Nanowar Of Steel on Tour on the wings of a Barbagianni</p>', unsafe_allow_html=True)
 
     # Initialize and plot the map
