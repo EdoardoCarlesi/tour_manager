@@ -91,7 +91,7 @@ def main():
     distances = update_data(data=data)
 
     data['distances'] = distances
-    #print(data.head())
+    print(data.head())
     data.to_csv(dataf, index=False)
 
 

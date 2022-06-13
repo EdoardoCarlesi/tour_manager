@@ -1,6 +1,4 @@
 Event name,Event date,Country,Zip code,City,Address,Website,IATA,distances
-Festival Fosa de Frikis,28/05/2022,Spain,28005,Madrid,"Paseo Bajo de la Virgen del Puerto, S/N",https://www.facebook.com/FestivalFosadeFrikis/?ref=page_internal,"['TOJ', 'MAD', nan]","[25, 16, -10]"
-Parma Nerd Fest,11/06/2022,Italy,43126,Parma,"Viale Delle Esposizioni, 393a",https://www.facebook.com/parmanerdfest,"['PMF', 'BGY', 'LIN']","[2, 104, 106]"
 Hellfest,16/06/2022,France,44190,Clisson,Rue du Champ Louet,https://www.hellfest.fr/en/,"['NTE', 'PIS', nan]","[26, 132, -10]"
 B.EST Rock Festival,25/06/2022,Italy,23010,Berbenno di Valtellina,"Via Roma, 243",https://www.facebook.com/b.estrockfestival/,"['BGY', 'LIN', 'MXP']","[55, 88, 98]"
 Plane'r Rest,01/07/2022,France,69124 ,Colombier-Saugnieu,Chemin des Salines,https://planerfest.com/en/,"['GNB', 'CFE', nan]","[43, 151, -10]"
@@ -10,7 +8,7 @@ Parco Tittoni,22/07/2022,Italy,20832 ,Desio,Via Lampugnani 62,https://www.parco
 La Notte Nera,23/07/2022,Italy,35131,Padova,via Del Pescarotto,https://www.facebook.com/events/1971812976355947/?acontext=%7B%22event_action_history%22%3A[%7B%22surface%22%3A%22page%22%7D]%7D,"['TSF', 'VNC', 'VRN']","[34, -10, 78]"
 Borderline Rock Fest,24/07/2022,Italy,56125 ,Pisa,"Lungarno Leonardo Fibonacci, 2",https://www.facebook.com/events/1080995532450365/?ref=newsfeed,"['PSA', nan, nan]","[3, -10, -10]"
 Metaldays,26/07/2022,Slovenia,5220,Tolmin,Dijaška ulica 18 ,https://www.metaldays.net/,"['TRS', 'KLU', nan]","[43, 69, -10]"
-Sabaton Open Air 2022,04/08/2022,Sweden,791 83,Falun ,Lugnetvägen 83,https://sabatonopenair.net/?lang=en,"['ARN', 'BMA', 'ORB']","[-10, 190, 159]"
+Sabaton Open Air 2022,04/08/2022,Sweden,791 83,Falun ,Lugnetvägen 83,https://sabatonopenair.net/?lang=en,"['ARN', 'BMA', 'ORB']","[165, 190, 159]"
 Montelago Celtic Festival,05/08/2022,Italy,62038,Serravalle di Chienti,Località taverne,https://www.montelagocelticfestival.it/,"['AOI', 'PEG', nan]","[74, 33, -10]"
 Rock n' Beer,06/08/2022,Italy,7039,Valledoria,Corso Europa,https://www.rocknbeer.it/,"['AHO', nan, nan]","[55, -10, -10]"
 Bloodstock Open Air,11/08/2022,United Kingdom,DE12 8LN,Walton-on-Trent,Catton Park,https://www.bloodstock.uk.com/,"['BHX', 'MAN', 'EMA']","[34, 77, 24]"
@@ -18,5 +16,5 @@ Summer Breeze,19/08/2022,Germany,91550,Dinkelsbühl,Flugplatzstr. 1,https://www.
 Musigburg,20/08/2022,Switzerland,4663,Aarburg,Bahnhofstrasse 50,https://musigburg.ch/musigburgevents/nanowar-of-steel/?occurrence=2022-08-20,"['BSL', nan, nan]","[41, -10, -10]"
 Frogstock Festival,25/08/2022,Italy,48025,Riolo Terme,"Parco Fluviale, via Firenze 18/d",https://www.frogstock.it/,"['BLQ', 'RMI', nan]","[45, 76, -10]"
 FdB Festival,27/08/2022,Italy,1034,Fabrica di Roma,"Via Lazio, 101 ",https://www.facebook.com/FdBFestival,"['CIA', 'FCO', nan]","[15, 22, -10]"
-Feffarkhorn,10/09/2022,Italy,31010 ,Cimadolmo,Via Bortolina,https://www.facebook.com/feffarkhorn/,"['VCE', 'TSF', nan]","[-10, 19, -10]"
+Feffarkhorn,10/09/2022,Italy,31010 ,Cimadolmo,Via Bortolina,https://www.facebook.com/feffarkhorn/,"['VCE', 'TSF', nan]","[31, 19, -10]"
 The Garage,01/10/2022,Malta,9912 1899,Haz-Zebbug,The Garage,https://www.facebook.com/events/1618638218338458/?acontext=%7B%22event_action_history%22%3A[%7B%22surface%22%3A%22page%22%7D]%7D,"['MLA', nan, nan]","[3, -10, -10]"
