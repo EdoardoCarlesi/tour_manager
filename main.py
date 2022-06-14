@@ -359,14 +359,17 @@ def main():
     </style> """, unsafe_allow_html=True)
 
     # Band logo
-    st.image('data/Logo-nanowar.png')
+    #st.image('data/Logo-nanowar.png')
+    
+    # SITE LOGO
+    st.image('data/intheskyscanner_logo.png')
 
     # TODO make this an image with an embedded href link to www.nanowar.it
     #logo_link = ''
     #st.markdown(logo_link, unsafe_allow_html=True)
 
     # Create the actual streamlit stuff
-    st.markdown('<p class="title">IN THE SKY SCANNER</p>', unsafe_allow_html=True)
+    #st.markdown('<p class="title">IN THE SKY SCANNER</p>', unsafe_allow_html=True)
     st.markdown('<p class="text2">Catch Nanowar Of Steel on Tour on the wings of a Barbagianni</p>', unsafe_allow_html=True)
 
     # Initialize and plot the map
@@ -497,6 +500,9 @@ def main():
                 
             elif choose_city == 'Busto Arsizio':
                 departures_text = '<br><b>Flying from the Glory Of Busto Arsizio is always free of charge<b>'
+            
+            elif choose_city == 'The Hunter Of The Night Airport':
+                departures_text = '<br><b>You can fly to Laos, Paraguay or Dutch Guyana from here! Enjoy!'
             
             elif choose_city == 'Formia':
                 departures_text = '<br><b>Formia is a FINAL destination, you cannot fly anywhere from there<b>'
