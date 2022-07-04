@@ -1,8 +1,4 @@
 Event name,Event date,Country,Zip code,City,Address,Website,IATA,distances
-Hellfest,16/06/2022,France,44190,Clisson,Rue du Champ Louet,https://www.hellfest.fr/en/,"['NTE', 'PIS', nan]","[26, 132, -10]"
-B.EST Rock Festival,25/06/2022,Italy,23010,Berbenno di Valtellina,"Via Roma, 243",https://www.facebook.com/b.estrockfestival/,"['BGY', 'LIN', 'MXP']","[55, 88, 98]"
-Plane'r Rest,01/07/2022,France,69124 ,Colombier-Saugnieu,Chemin des Salines,https://planerfest.com/en/,"['GNB', 'CFE', nan]","[43, 151, -10]"
-Khal'Fest,02/07/2022,Switzerland,1337,Vallorbe,Chemin des Fontaines,https://www.facebook.com/events/chemin-des-fontaines-1337-vallorbe/khalfest-avec-ultra-vomit-et-tagada-jones/577393259467167/,"['DLE', 'BSL', nan]","[81, 131, -10]"
 Dong Open Air 2022,15/07/2022,Germany,47506 ,Neukirchen,Zur Himmelstreppe,https://www.dongopenair.de/de/home/index,"['DTM', 'FMO', 'CGN']","[140, 181, 154]"
 Parco Tittoni,22/07/2022,Italy,20832 ,Desio,Via Lampugnani 62,https://www.parcotittoni.it/nanowarofsteel/,"['BGY', 'LIN', 'MXP']","[38, 19, 38]"
 La Notte Nera,23/07/2022,Italy,35131,Padova,via Del Pescarotto,https://www.facebook.com/events/1971812976355947/?acontext=%7B%22event_action_history%22%3A[%7B%22surface%22%3A%22page%22%7D]%7D,"['TSF', 'VNC', 'VRN']","[34, -10, 78]"
