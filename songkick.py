@@ -43,6 +43,9 @@ class SongKick:
         
             return all_events
 
+    def future_events_to_csv(self):
+        pass       
+
 
 if __name__ == '__main__':
 
