@@ -1,3 +1,3 @@
 Event name,Event date,Country,Zip code,City,Address,Website,IATA,distances
-CopenHell Cruise,28/10/2022,Denmark,1432,Copenhagen,Refshalevej 177,https://www.copenhell.dk/nyheder/2022/6/22/copenhell-metal-cruise-2022-offentliggjort,['CPH'],['-']
-John Smith Frozen,03/12/2022,Finand,40101,Jyväskylä,Lutakonaukio 12,https://johnsmithrockfrozen.fi/,['HEL','JYV'], ['-', '-']
+CopenHell Cruise,28/10/2022,Denmark,1432,Copenhagen,Refshalevej 177,https://www.copenhell.dk/nyheder/2022/6/22/copenhell-metal-cruise-2022-offentliggjort,"['CPH']","[-]"
+John Smith Frozen,03/12/2022,Finand,40101,Jyväskylä,Lutakonaukio 12,https://johnsmithrockfrozen.fi/,"['HEL','JYV']", "[-, -]"
