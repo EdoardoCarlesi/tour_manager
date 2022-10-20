@@ -1,5 +1,6 @@
 Event name,Event date,Country,Zip code,City,Address,Website,IATA,distances
 CopenHell Cruise,28/10/2022,Denmark,1432,Copenhagen,Refshalevej 177,https://www.copenhell.dk/nyheder/2022/6/22/copenhell-metal-cruise-2022-offentliggjort,"['CPH']","[-]"
+Lucca Comics,01/11/2022,Italy,55100,Lucca,Lucca Arena,http://www.luccacomicsandgames.com,"['FLR','PSA']","[-, -]"
 John Smith Frozen,03/12/2022,Finand,40101,Jyväskylä,Lutakonaukio 12,https://johnsmithrockfrozen.fi/,"['HEL','JYV']","[-, -]"
 MetalFest,03/06/2023,Czech Republic,0101,Pilsen,Pod Vinicemi 9,https://www.metalfest.cz/en,"['PRG']","[-]"
 MISE Open Air,09/06/2023,Germany,35315,Homburg,Giessener Strasse 1,https://www.moa-festival.eu/,"['FRA', 'CGN']","[-, -]"
