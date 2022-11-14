@@ -24,14 +24,14 @@ def departures_html(departure):
     #html = "<table><tr><th> Date </th><th> Event </th><th> Arrival </th><th> Distance to event </th><th> Return flight price from </th><th> </th></tr>"
     html = "<table><tr><th> Date </th><th> Event </th><th> Arrival </th><th> Return flight price from </th><th> </th></tr>"
     
-    #for event, date, price, airport, distance in zip(departure['event'], departure['date'], departure['price'], departure['event_airport_name'], departure['distance_to_event']):
-    for event, date, price, airport in zip(departure['event'], departure['date'], departure['price'], departure['event_airport_name']):
+    for event, date, price, airport, distance in zip(departure['event'], departure['date'], departure['price'], departure['event_airport_name'], departure['distance_to_event']):
+    #for event, date, price, airport in zip(departure['event'], departure['date'], departure['price'], departure['event_airport_name']):
         #if int(distance) < 0:
         #    distance = 'N/A'
 
         tag_name = event.replace(' ', '').replace(',', '').lower()
         #html += "<tr><th>" + str(date) + "</th><th>" + event + "</th><th>" + airport['city'] + "</th><th>" + str(distance) + "</th><th>" + str(int(price)) + "&#8364;</th><th><a href='#" + tag_name + "'>INFO</a></th></tr>"
-        html += "<tr><th>" + str(date) + "</th><th>" + event + "</th><th>" + airport['city'] + "</th><th>" + str(int(price)) + "&#8364;</th><th><a href='#" + tag_name + "'>INFO</a></th></tr>"
+        html += "<tr><th>" + str(date) + "</th><th>" + event + "</th><th>" + airport['city'] + " (" + distance + " km)</th><th>" + str(int(price)) + "&#8364;</th><th><a href='#" + tag_name + "'>INFO</a></th></tr>"
 
     return html
 

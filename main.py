@@ -14,7 +14,6 @@ import pickle as pkl
 import json
 import datetime
 from datetime import date
-#from state import provide_state
 import os
 
 # Local imports 
@@ -76,8 +75,13 @@ def safe_call_ryanair_return_apis(airport_code, date_from, date_to, return_from,
     date_today = str(date.today())
     f_name = 'ryan_return_' + airport_code + date_from + date_to + date_today + '.pkl'
     f_tmp = os.path.join('tmp', f_name)
-    trips = ryanair.get_return_flights(airport_code, date_from, date_to, return_from, return_to)
     
+    try:
+        trips = ryanair.get_return_flights(airport_code, date_from, date_to, return_from, return_to)
+    except:
+        print(f'No connection available from {airport_code}')
+        trips = []
+
     return trips
 
 
@@ -149,13 +153,10 @@ def geocode_address(row=None, address=None):
     return coord['geometry'].values[0]
 
 
-def convert_date_format(date):
-    return date[-4:] + '-' + date[3:5] + '-' + date[0:2]
-
 
 def create_date_range(date, days_before, days_after):
 
-    date_base = datetime.datetime.strptime(date, "%d/%m/%Y")
+    date_base = datetime.datetime.strptime(date, "%Y-%m-%d")
     date_from = date_base - datetime.timedelta(days_before)
     date_to = date_base + datetime.timedelta(days_after)
     date_from_str = datetime.datetime.strftime(date_from, "%Y-%m-%d")
@@ -213,7 +214,7 @@ def map_init(m, df):
 
                     # Initialize looking at all the shows one week before and after the show
                     date_from, date_to = create_date_range(row['Event date'], 7, 7)
-                    new_date = convert_date_format(row['Event date'])
+                    new_date = row['Event date']
                     dests, prices, codes = find_return_flights(iata, date_from, date_to, date_event=new_date)
                     update_departures(codes, dests, prices, iata, event, new_date)
 
@@ -244,7 +245,7 @@ def update_flights_time_range(days_before, days_after, df, date_event=False):
             if (len(iata) == 3) and iata.upper() != 'NAN':
                 if iata in airports.keys():
                     date_from, date_to = create_date_range(date, days_before, days_after)
-                    new_date = convert_date_format(date)
+                    new_date = date
 
                     if date_event:
                         dests, prices, codes = find_return_flights(iata, date_from, date_to, date_event=new_date)
@@ -321,6 +322,7 @@ def main():
 
     # TODO make this a function that scrapes the gigs from SONGKICK
     csv = 'data/Tour-dates.csv'
+    tour_name = 'DEATH TO FALSE TOURS'
     #df = pd.read_csv(csv, sep=';')
     df = pd.read_csv(csv)
     reset_vars()
@@ -380,9 +382,11 @@ def main():
     col_keep = ['Event date', 'Event name', 'Country', 'City', 'Website']
 
     # Write stuff on the home page
-    st.markdown('<p class="shows"><br>TOUR MANAGERS TOUR</p>', unsafe_allow_html=True)
+    st.markdown(f'<p class="shows"><br>{tour_name} TOUR</p>', unsafe_allow_html=True)
     concerts_text = html_pages.concerts_html(df)
     st.write(concerts_text, unsafe_allow_html=True)
+    st.write('<br><p class="text2">Powered by <a href="http://www.songkick.com" target="_blank">SongKick</a></p>', unsafe_allow_html=True)
+    st.image('data/songkick_logo2.png', width=200)
     countries, cities = sort_departures()
 
     # Basic information on the website
@@ -390,8 +394,8 @@ def main():
     st.markdown('<p class="shows"> Find your way to the shows!</p>', unsafe_allow_html=True)
     st.markdown('<p class="text2"> Are you a Nanowarrior looking for a show? If we are not performing anywhere near you, do not worry. </p>', unsafe_allow_html=True)
     st.markdown('<p class="text2"> The TOUR MANAGERS are here to help you!</p>', unsafe_allow_html=True)
-    st.markdown('<p class="text2"> Choose your origin country and city, we will show you the cheapest (Ryanair) options for return flights to \
-            any of our TOUR MANAGERS shows.</p>', unsafe_allow_html=True)
+    st.markdown(f'<p class="text2"> Choose your origin country and city, we will show you the cheapest (Ryanair) options for return flights to \
+            any of our {tour_name} Tour shows.</p>', unsafe_allow_html=True)
     st.markdown('<p class="text2"> See you on the road! </p>', unsafe_allow_html=True)
     
     st.markdown('<p class="text2">Select a timespan to perform the search. How many days before a show do you want to leave? How many days after?</p>', unsafe_allow_html=True)
