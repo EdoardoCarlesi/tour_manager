@@ -1,4 +1,5 @@
 *.swp
+data/*tmp*
 activate
 bin
 *driver

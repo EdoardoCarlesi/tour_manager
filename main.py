@@ -50,18 +50,24 @@ special_cities['Azerbaijan'] = ['404 NOT FOUND']
 
 
 def update_airport_event_distance(data=None, departure=None):
+    print('Updating airports event distances...')
+    events_set = set()
 
     for event in departure['event']:
         distances = ed.str2list(data[data['Event name'] == event]['distances'].values[0])
         near_airports = ed.str2list(data[data['Event name'] == event]['IATA'].values[0])
+        
+        if event not in events_set:
+            events_set.add(event)
 
-        for distance, airp in zip(distances, near_airports):
-            if airp in departure['event_airport']:
-                if 'distance_to_event' not in departure.keys():
-                    departure['distance_to_event'] = [distance]
-                else:
-                    departure['distance_to_event'].append(distance)
-
+            for distance, airp in zip(distances, near_airports):
+                
+                if airp in departure['event_airport']:
+                    if 'distance_to_event' not in departure.keys():
+                        departure['distance_to_event'] = [distance]
+                    else:
+                        departure['distance_to_event'].append(distance)
+    
     return departure
 
 # Reset some variables at each update / refresh
