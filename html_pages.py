@@ -1,4 +1,12 @@
-#import streamlit as st
+def convert_date(date):
+
+    date = str(date)
+    year = date[0:4]
+    month = date[5:7]
+    day = date[8:10]
+    
+    return f'{day}/{month}/{year[2:]}'
+
 
 def flights_html(origin, dests, prices):
     
@@ -21,17 +29,16 @@ def flights_html(origin, dests, prices):
 def departures_html(departure):
     """ Given a departure city, show a table with all the available flight connections """
 
-    #html = "<table><tr><th> Date </th><th> Event </th><th> Arrival </th><th> Distance to event </th><th> Return flight price from </th><th> </th></tr>"
-    html = "<table><tr><th> Date </th><th> Event </th><th> Arrival </th><th> Return flight price from </th><th> </th></tr>"
+    html = "<table><tr><th> Date </th><th> Event </th><th> Arrival </th><th> Flight price from </th><th> Link </th></tr>"
     
-    for event, date, price, airport, distance in zip(departure['event'], departure['date'], departure['price'], departure['event_airport_name'], departure['distance_to_event']):
-    #for event, date, price, airport in zip(departure['event'], departure['date'], departure['price'], departure['event_airport_name']):
-        #if int(distance) < 0:
-        #    distance = 'N/A'
+    for event, date, price, airport, distance, site in zip(departure['event'], departure['date'], departure['price'], departure['event_airport_name'], departure['distance_to_event'], departure['site']):
 
-        tag_name = event.replace(' ', '').replace(',', '').lower()
-        #html += "<tr><th>" + str(date) + "</th><th>" + event + "</th><th>" + airport['city'] + "</th><th>" + str(distance) + "</th><th>" + str(int(price)) + "&#8364;</th><th><a href='#" + tag_name + "'>INFO</a></th></tr>"
-        html += "<tr><th>" + str(date) + "</th><th>" + event + "</th><th>" + airport['city'] + " (" + distance + " km)</th><th>" + str(int(price)) + "&#8364;</th><th><a href='#" + tag_name + "'>INFO</a></th></tr>"
+        event = event.replace('Nanowar Of Steel at ', '')
+        #tag_name = event.replace(' ', '').replace(',', '').lower()
+        #link_to = "&#8364;</th><th><a href='#" + tag_name + "'>INFO</a></th></tr>"
+        link_to = f"&#8364;</th><th><a href='{site}' target='_blank'>WWW</a></th></tr>"
+        date = convert_date(date) 
+        html += "<tr><th>" + date + "</th><th>" + event + "</th><th>" + airport['city'] + " (" + distance + " km)</th><th>" + str(int(price)) + link_to
 
     return html
 
@@ -39,18 +46,22 @@ def departures_html(departure):
 def concerts_html(data):
     """ Just show the concert list """
 
-    html = "<table><tr><th> Date </th><th> Event </th><th>City </th><th>Country </th><th> Website</th></tr>"
+    html = "<table><tr><th> Date </th><th> Event </th><th>City </th><th>Country </th><th> Link</th></tr>"
 
     cols = ['Event date', 'Event name', 'City', 'Country', 'Website']
 
     for i, event in data.iterrows():
         tag_name = event['Event name'].lower().replace(' ', '').replace(',', '')
         html += "<tr id='" + tag_name + "'>"
-         
+
+        # Clean some formats
+        event['Event name'] = event['Event name'].replace('Nanowar Of Steel at ', '')
+        event['Event date'] = convert_date(event['Event date'])
+        
         # Fill the columns of this row
         for col in cols:
             if col == 'Website':
-                html += "<th><a href='" + event['Website'] + "' target=_blank>LINK</a></th>"
+                html += "<th><a href='" + event['Website'] + "' target=_blank>WWW</a></th>"
             else:
                 html += "<th>" + event[col] + " </th>"
 
@@ -92,3 +103,10 @@ def popup_html(event):
 
     return html
 
+
+if __name__ == '__main__':
+
+    date = '2023-02-12'
+    
+    print(date)
+    print(convert_date(date))

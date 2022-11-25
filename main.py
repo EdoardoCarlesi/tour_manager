@@ -221,8 +221,9 @@ def map_init(m, df):
                     # Initialize looking at all the shows one week before and after the show
                     date_from, date_to = create_date_range(row['Event date'], 7, 7)
                     new_date = row['Event date']
+                    site = row['Website']
                     dests, prices, codes = find_return_flights(iata, date_from, date_to, date_event=new_date)
-                    update_departures(codes, dests, prices, iata, event, new_date)
+                    update_departures(codes, dests, prices, iata, event, new_date, site)
 
                     # Find the coordinate pair of the airport given its code
                     gps1 = iata2gps(iata)
@@ -245,6 +246,7 @@ def update_flights_time_range(days_before, days_after, df, date_event=False):
     for i, row in df.iterrows():
         event = row['Event name']
         date = row['Event date']
+        site = row['Website']
         iatas = ed.str2list(row['IATA'])
 
         for iata in iatas:
@@ -258,11 +260,11 @@ def update_flights_time_range(days_before, days_after, df, date_event=False):
                     else:
                         dests, prices, codes = find_return_flights(iata, date_from, date_to)
 
-                    update_departures(codes, dests, prices, iata, event, new_date)
+                    update_departures(codes, dests, prices, iata, event, new_date, site)
     return 1
 
 
-def update_departures(codes, dests, prices, iata, event, date):
+def update_departures(codes, dests, prices, iata, event, date, site):
     """
         IATA: airport code for the festival airport
         dests: airports connected to the concert
@@ -274,6 +276,7 @@ def update_departures(codes, dests, prices, iata, event, date):
             departures[code]['event'].append(event)
             departures[code]['date'].append(date)
             departures[code]['price'].append(price)
+            departures[code]['site'].append(site)
             departures[code]['event_airport'].append(iata)
             departures[code]['event_airport_name'].append(airports[iata])
         else:
@@ -282,6 +285,7 @@ def update_departures(codes, dests, prices, iata, event, date):
             departures[code]['event'] = [event]
             departures[code]['date'] = [date]
             departures[code]['price'] = [price]
+            departures[code]['site'] = [site]
             departures[code]['event_airport'] = [iata]
             departures[code]['event_airport_name'] = [airports[iata]]
 
@@ -329,7 +333,6 @@ def main():
     # TODO make this a function that scrapes the gigs from SONGKICK
     csv = 'data/Tour-dates.csv'
     tour_name = 'DEATH TO FALSE TOURS'
-    #df = pd.read_csv(csv, sep=';')
     df = pd.read_csv(csv)
     reset_vars()
 
