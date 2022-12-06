@@ -54,8 +54,12 @@ def concerts_html(data):
         tag_name = event['Event name'].lower().replace(' ', '').replace(',', '')
         html += "<tr id='" + tag_name + "'>"
 
+        remove_words = ['Nanowar Of Steel', ' at ', ' with ', 'Frozen Crown', 'Tragedy']
+
         # Clean some formats
-        event['Event name'] = event['Event name'].replace('Nanowar Of Steel at ', '')
+        for rmw in remove_words:
+            event['Event name'] = event['Event name'].replace(rmw, '')
+
         event['Event date'] = convert_date(event['Event date'])
         
         # Fill the columns of this row
