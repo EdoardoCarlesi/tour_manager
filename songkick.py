@@ -72,7 +72,7 @@ class SongKick:
     def future_events_to_csv(self):
         shows = self.get_concerts()
         columns = ['Event name','Event date','Country','City','Address','Website','IATA','distances']
-        shows_file = 'data/tourdates_tmp.csv'
+        shows_file = 'data/Tour-dates.csv'
         
         rows = []
         
