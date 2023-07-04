@@ -1,4 +1,5 @@
 ,Event name,Event date,Country,City,Address,Website,IATA,distances
+<<<<<<< HEAD
 0,Area 53 2023,2023-07-14, Austria,Leoben,Leoben,https://www.songkick.com/festivals/2803619-area-53/id/40700043-area-53-2023?utm_source=60345&utm_medium=partner,"['GRZ', 'KLU', 'LNZ']","[50, 100, 116]"
 1,FestArtes 2023,2023-07-30, Italy,Sant'Antioco,Sant'Antioco,https://www.songkick.com/festivals/3574990-festartes/id/41258803-festartes-2023?utm_source=60345&utm_medium=partner,"['CAG', 'AHO', 'OLB']","[55, 175, 223]"
 2,Summer Breeze 2023,2023-08-16, Germany,Dinkelsbuhl,Ansbach,https://www.songkick.com/festivals/1014553-summer-breeze/id/40801461-summer-breeze-2023?utm_source=60345&utm_medium=partner,"['NUE', 'FMM', 'MUC']","[68, 120, 128]"
