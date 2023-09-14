@@ -1,0 +1,29 @@
+,Date,City,Venue,Distance to next city (km),Distance to next city (miles),Duration to next city
+0,2023-10-23,"Austin,TX,USA",Empire Garage,421,261,4h : 15 min
+1,2023-10-24,"Dallas,TX,USA",The Granada,394,244,3h : 51 min
+2,2023-10-25,"Houston,TX,USA",House of Blues,1574,977,16h : 12 min
+2,2023-10-26,"DAY OFF",0,0, 0
+3,2023-10-27,"Orlando,FL,USA",House of Blues,336,208,3h : 34 min
+4,2023-10-28,"Fort Lauderdale Florida,FL,USA",Culture Room,1097,681,11h : 22 min
+2,2023-10-29,"DAY OFF",0,0, 0
+5,2023-10-30,"Atlanta,GA,USA",Masquerade Heaven,329,204,3h : 41 min
+6,2023-10-31,"Charlotte,NC,USA",The Underground,745,462,8h : 10 min
+7,2023-11-01,"Baltimore,MD,USA",Baltimore Soundstage,516,320,6h : 48 min
+2,2023-11-02,"DAY OFF",0,0, 0
+8,2023-11-03,"New York,NY,USA",Palladium Time Square,561,348,6h : 35 min
+9,2023-11-04,"Worcester,MA,USA",The Palladium,443,275,5h : 23 min
+10,2023-11-05,"Montreal,QC,Canada",MTelus,546,339,6h : 21 min
+11,2023-11-06,"Toronto,ON,Canada",Danforth Music Hall,458,284,5h : 14 min
+2,2023-11-07,"DAY OFF",0,0, 0
+12,2023-11-08,"Cleveland,OH,USA",Agora Theater,269,167,2h : 58 min
+13,2023-11-09,"Detroit,MI,USA",The Majestic,446,277,4h : 53 min
+14,2023-11-10,"Chicago,IL,USA",House of Blues,676,419,7h : 11 min
+15,2023-11-11,"Minneapolis,MN,USA",First Avenue,772,479,8h : 02 min
+16,2023-11-12,"Lawrence,KS,USA",Granada Theater,890,552,8h : 15 min
+2,2023-11-13,"DAY OFF",0,0, 0
+17,2023-11-14,"Denver,CO,USA",Summit Music Hall,887,551,8h : 18 min
+18,2023-11-15,"Salt Lake City,UT,USA",The Depot,568,352,5h : 15 min
+19,2023-11-16,"Boise,ID,USA",Knitting Factory,1013,629,10h : 34 min
+2,2023-11-17,"DAY OFF",0,0, 0
+20,2023-11-18,"Berkeley California,CA,USA",UC Theater,579,359,6h : 03 min
+21,2023-11-19,"Los Angeles,CA,USA",The Wiltern,0,0,0

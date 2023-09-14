@@ -48,7 +48,7 @@ class TourManager:
         pass
 
 
-    def manage_tour(self, tour_dates : str):
+    def manage_tour(self, tour_dates : str, output_file : str):
         """ """
 
         self.gigs = pd.read_csv(tour_dates)
@@ -56,7 +56,9 @@ class TourManager:
         n_gigs = len(self.gigs)
         cities = self.gigs['City']
     
+        km2miles = 0.6213
         distances = []
+        distances_miles = []
         times = []
 
         for i in range(n_gigs-1):
@@ -65,27 +67,35 @@ class TourManager:
             city2 = cities[i+1]
 
             dist, time = self.distance(city1, city2)
+            dist_m = int(dist * km2miles)
+            
             distances.append(dist)
+            distances_miles.append(dist_m)
             times.append(f'{time[0]}h : {time[1]} min')
-
-            print(f'Trip from {city1} to {city2} takes {time[0]}h and {time[1]}min ({dist}km)')
+            
+            print(f'Trip from {city1} to {city2} takes {time[0]}h and {time[1]}min ({dist}km) / ({dist_m}miles)')
             t.sleep(1)
 
         # The last step is already there
         distances.append(0)
+        distances_miles.append(0)
         times.append('0')
 
-        self.gigs['Distance to next city'] = distances
+
+        self.gigs['Distance to next city (km)'] = distances
+        self.gigs['Distance to next city (miles)'] = distances_miles
         self.gigs['Duration to next city'] = times
 
-        self.gigs.to_csv('data/tour_dates_with_distances.csv')
+        self.gigs.to_csv(output_file)
 
 
     def distance(self, city1 : str, city2 : str) -> float: 
-        """ """
+        """ Get the distance between two geocoded cities """
         
-        gps1 = gpd.tools.geocode(city1)['geometry'].values[0]
-        gps2 = gpd.tools.geocode(city2)['geometry'].values[0]
+        gps1 = gpd.tools.geocode(city1, timeout=10)['geometry'].values[0]
+        t.sleep(1)
+        gps2 = gpd.tools.geocode(city2, timeout=10)['geometry'].values[0]
+        t.sleep(1)
 
         pt1 = (gps1.x, gps1.y)
         pt2 = (gps2.x, gps2.y)
@@ -110,8 +120,6 @@ class TourManager:
 
 
     def tour_to_csv(self):
-        """ """
-
         pass
 
 
@@ -126,9 +134,13 @@ def main():
         key = st.secrets['ORS_API_KEY']
         
     #gig_list = 'data/Tour-dates.csv'
-    gig_list = 'data/tour_dates_edit.csv'
+    #gig_list = 'data/tour_dates_edit.csv'
+    #gig_list = 'data/trip_balkan.csv'
+    #output_file = 'data/trip_balkan_dist.csv'
+    gig_list = 'data/america_2023.csv'
+    output_file = 'data/america_2023_dist.csv'
     tm = TourManager(api_key=key, artist_id=aid)
-    tm.manage_tour(gig_list)
+    tm.manage_tour(gig_list, output_file)
     #tm.clean_gigs(gig_list, skip_first=5, skip_last=4)
     #city1 = 'Milan, Italy'
     #city2 = 'Zurich, Switzerland'
