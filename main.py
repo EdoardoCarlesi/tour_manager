@@ -345,7 +345,7 @@ def main():
     tile = 'stamenwatercolor'
 
     # Create the folium map. We don't want the tile name to appear in the legend so we initialize it separately
-    m = folium.Map(location=[map_center.y, map_center.x], tiles=None, zoom_start=4) 
+    m = folium.Map(location=[map_center.y, map_center.x], tiles=None, zoom_start=4, attr='WorldTour') 
     tile_layer = folium.TileLayer(tiles=tile, control=False)
     tile_layer.add_to(m)
 
