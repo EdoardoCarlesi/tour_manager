@@ -202,8 +202,6 @@ def map_init(m, df):
         icon_text = DivIcon(icon_anchor=(0,0),
                             html="<p class='text'><b><em>" + row['City'].replace(' ', '_').replace('-', '_')  + "</em></b></p>")
     
-
-
         # Add the marker for the CONCERT location
         concert_marker = folium.Marker(coords[i], icon=icon_show, popup=popup_text, tooltip=text)
         concert_group.add_child(concert_marker)
@@ -338,7 +336,7 @@ def main():
 
     # TODO make this a function that scrapes the gigs from SONGKICK
     csv = 'data/Tour-dates.csv'
-    tour_name = 'DEATH TO FALSE TOURS'
+    tour_name = 'Nanowar Of Steel On Tour'
     df = pd.read_csv(csv)
     reset_vars()
 
@@ -439,7 +437,7 @@ def main():
 
             if code in departures.keys():
                 departure = update_airport_event_distance(data=df, departure=departures[code])
-                departures_text = html_pages.departures_html(departure)
+                departures_text = html_pages.departures_html(departure, code)
 
         return departures_text
 
@@ -447,7 +445,6 @@ def main():
     with st.form('country'):
         choose_country = st.selectbox('Choose your country of departure:', countries)
         out1 = st.form_submit_button('Refresh city list')
-
 
     # This second form has to be reloaded once the country has been chosen, otherwise streamlit won't updade the dict cities[country] in real time
     with st.form('city'):
