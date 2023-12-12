@@ -313,9 +313,11 @@ def sort_departures():
         if country in special_countries:
             for city in special_cities[country]:
                 if country not in fictional_countries:
-
-                    cities_list[country2short[country]].append(city)
-
+                    
+                    try:
+                        cities_list[country2short[country]].append(city)
+                    except:
+                        print(f'Problems with country key: {country}')
                 else:
                     if country in cities_list.keys():
                         cities_list[country].append(city)
