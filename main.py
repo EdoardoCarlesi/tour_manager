@@ -74,7 +74,7 @@ def update_airport_event_distance(data=None, departure=None):
 def reset_vars():
     departures.clear()
 
-@st.cache
+@st.cache_data
 def safe_call_ryanair_return_apis(airport_code, date_from, date_to, return_from, return_to):
  
     ryanair = Ryanair("EUR")
@@ -150,7 +150,8 @@ def geocode_address(row=None, address=None):
 
     if os.path.isfile(f_tmp):
         with open(f_tmp, 'rb') as f:
-            coord = pkl.load(f)
+            #coord = pkl.load(f)
+            coord = pd.read_pickle(f)
     else:
         coord = gpd.tools.geocode(address, provider='arcgis')
         with open(f_tmp, 'wb') as f:
