@@ -6,7 +6,7 @@ pycountry==22.3.5
 pandas
 matplotlib
 numpy
-geopandas==0.14.0
+geopandas
 shapely==2.0.1
 shapley==1.0.3
 folium==0.10.0
