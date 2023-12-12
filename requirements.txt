@@ -9,7 +9,7 @@ numpy
 geopandas
 shapely==2.0.1
 shapley==1.0.3
-folium==0.10.0
+folium==0.11.0
 streamlit-folium==0.7.0
 ryanair-py==1.0.2
 haversine==2.7.0
