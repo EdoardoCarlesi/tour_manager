@@ -325,7 +325,10 @@ def sort_departures():
                         cities_list[country] = [city]
 
         if country not in fictional_countries:
-            cities[country] = sorted(cities_list[country2short[country]])
+            try:
+                cities[country] = sorted(cities_list[country2short[country]])
+            except:
+                print(f'Problems with country key: {country}')
 
     return countries, cities
 
