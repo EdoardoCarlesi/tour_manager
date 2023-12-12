@@ -3,7 +3,7 @@ state==0.1.1.dev0
 airportsdata==20221105.1
 geopy==2.3.0
 pycountry==22.3.5
-pandas==2.1.1
+pandas
 matplotlib==3.8.0
 numpy==1.24.3
 geopandas==0.14.0
