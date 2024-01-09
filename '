@@ -224,7 +224,7 @@ def map_init(m, df):
                     new_date = row['Event date']
                     site = row['Website']
                     dests, prices, codes = find_return_flights(iata, date_from, date_to, date_event=new_date)
-                    update_departures(codes, dests, prices, iata, event, new_date, site, date_from, date_to)
+                    update_departures(codes, dests, prices, iata, event, new_date, site)
 
                     # Find the coordinate pair of the airport given its code
                     gps1 = iata2gps(iata)
@@ -261,11 +261,11 @@ def update_flights_time_range(days_before, days_after, df, date_event=False):
                     else:
                         dests, prices, codes = find_return_flights(iata, date_from, date_to)
 
-                    update_departures(codes, dests, prices, iata, event, new_date, site, date_from, date_to)
+                    update_departures(codes, dests, prices, iata, event, new_date, site)
     return 1
 
 
-def update_departures(codes, dests, prices, iata, event, date, site, date_from, date_to):
+def update_departures(codes, dests, prices, iata, event, date, site):
     """
         IATA: airport code for the festival airport
         dests: airports connected to the concert
@@ -280,8 +280,6 @@ def update_departures(codes, dests, prices, iata, event, date, site, date_from, 
             departures[code]['site'].append(site)
             departures[code]['event_airport'].append(iata)
             departures[code]['event_airport_name'].append(airports[iata])
-            departures[code]['date_from'].append(date_from)
-            departures[code]['date_to'].append(date_to)
         else:
             departures[code] = dict()
             departures[code]['origin'] = dest
@@ -291,8 +289,6 @@ def update_departures(codes, dests, prices, iata, event, date, site, date_from, 
             departures[code]['site'] = [site]
             departures[code]['event_airport'] = [iata]
             departures[code]['event_airport_name'] = [airports[iata]]
-            departures[code]['date_from'] = [date_from]
-            departures[code]['date_to'] = [date_to]
 
 
 def sort_departures():
@@ -441,13 +437,11 @@ def main():
         if success:
             code = city2airports[choose_city]
 
-            if code in departures.keys():
-            
-                print('--------->', departures[code], code)
-                
+            if i, code in enumerate(departures.keys()):
                 departure = update_airport_event_distance(data=df, departure=departures[code])
-                date_from, date_to = 0, 0 #create_date_range(this_date, days_before, days_after)
-                departures_text = html_pages.departures_html(departure, code)
+                print(departure)
+                date_from, date_to = create_date_range(departure['date'][i], days_before, days_after)
+                departures_text = html_pages.departures_html(departure, date_from, date_to, code)
 
         return departures_text
 

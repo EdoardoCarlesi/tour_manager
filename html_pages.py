@@ -37,12 +37,13 @@ def departures_html(departure, iataIn):
 
     html = "<table><tr><th> Date </th><th> Event </th><th> Arrival </th><th> Flight price from </th><th> Event </th><th> Flight </th></tr>"
  
-    print(departure)
-    dateOut = departure['date'][0]
-    dateIn = departure['date'][1]
+    #print(departure)
+    #dateOut = departure['date'][0]
+    #dateIn = departure['date'][1]
 
-    for event, date, price, airport, distance, site, iataOut in zip(departure['event'], 
-            departure['date'], departure['price'], departure['event_airport_name'], departure['distance_to_event'], departure['site'], departure['event_airport']):
+    for event, date, price, airport, distance, site, iataOut, dateOut, dateIn,  in zip(departure['event'], 
+            departure['date'], departure['price'], departure['event_airport_name'], departure['distance_to_event'], departure['site'], 
+            departure['event_airport'], departure['date_from'], departure['date_to']):
         replace_str = ["Nanowar Of Steel", " at ", " with ", "Frozen Crown", "Tragedy", " and "]
         
         for rs in replace_str:
