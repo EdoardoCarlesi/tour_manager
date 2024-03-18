@@ -137,8 +137,8 @@ def main():
     #gig_list = 'data/tour_dates_edit.csv'
     #gig_list = 'data/trip_balkan.csv'
     #output_file = 'data/trip_balkan_dist.csv'
-    gig_list = 'data/america_2023.csv'
-    output_file = 'data/america_2023_dist.csv'
+    gig_list = 'data/EU_2024_first_leg.csv'
+    output_file = 'EU_2024_first_leg.csv'
     tm = TourManager(api_key=key, artist_id=aid)
     tm.manage_tour(gig_list, output_file)
     #tm.clean_gigs(gig_list, skip_first=5, skip_last=4)

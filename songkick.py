@@ -59,8 +59,11 @@ class SongKick:
         def airport_distance(x):
             pt1 = tuple([float(p) for p in x.split(',')])
             pt2 = (lat, lng)
-            return hs.haversine(pt1, pt2)
-            
+            try:
+                return hs.haversine(pt1, pt2)
+            except:
+                return 0
+
         air_df['distances'] = air_df['Geo Point'].apply(airport_distance)
 
         codes = list(air_df.sort_values(by=['distances'])['IATA code'].values[0:3])
