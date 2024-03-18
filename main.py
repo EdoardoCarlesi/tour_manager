@@ -74,7 +74,7 @@ def update_airport_event_distance(data=None, departure=None):
 def reset_vars():
     departures.clear()
 
-@st.cache
+@st.cache_data
 def safe_call_ryanair_return_apis(airport_code, date_from, date_to, return_from, return_to):
  
     ryanair = Ryanair("EUR")
@@ -112,6 +112,8 @@ def find_return_flights(airport_code, date_from, date_to, date_event=None):
         destinations.append(flight.destinationFull)
         prices.append(trip.totalPrice)
        
+        #print(trip)
+
         # Check that the destination airport is legit so we can get some info
         if flight.destination in airports.keys():
             this_city = airports[flight.destination]['city']
@@ -150,7 +152,8 @@ def geocode_address(row=None, address=None):
 
     if os.path.isfile(f_tmp):
         with open(f_tmp, 'rb') as f:
-            coord = pkl.load(f)
+            #coord = pkl.load(f)
+            coord = pd.read_pickle(f)
     else:
         coord = gpd.tools.geocode(address, provider='arcgis')
         with open(f_tmp, 'wb') as f:
@@ -201,8 +204,6 @@ def map_init(m, df):
         icon_text = DivIcon(icon_anchor=(0,0),
                             html="<p class='text'><b><em>" + row['City'].replace(' ', '_').replace('-', '_')  + "</em></b></p>")
     
-
-
         # Add the marker for the CONCERT location
         concert_marker = folium.Marker(coords[i], icon=icon_show, popup=popup_text, tooltip=text)
         concert_group.add_child(concert_marker)
@@ -223,7 +224,7 @@ def map_init(m, df):
                     new_date = row['Event date']
                     site = row['Website']
                     dests, prices, codes = find_return_flights(iata, date_from, date_to, date_event=new_date)
-                    update_departures(codes, dests, prices, iata, event, new_date, site)
+                    update_departures(codes, dests, prices, iata, event, new_date, site, date_from, date_to)
 
                     # Find the coordinate pair of the airport given its code
                     gps1 = iata2gps(iata)
@@ -260,11 +261,11 @@ def update_flights_time_range(days_before, days_after, df, date_event=False):
                     else:
                         dests, prices, codes = find_return_flights(iata, date_from, date_to)
 
-                    update_departures(codes, dests, prices, iata, event, new_date, site)
+                    update_departures(codes, dests, prices, iata, event, new_date, site, date_from, date_to)
     return 1
 
 
-def update_departures(codes, dests, prices, iata, event, date, site):
+def update_departures(codes, dests, prices, iata, event, date, site, date_from, date_to):
     """
         IATA: airport code for the festival airport
         dests: airports connected to the concert
@@ -279,6 +280,8 @@ def update_departures(codes, dests, prices, iata, event, date, site):
             departures[code]['site'].append(site)
             departures[code]['event_airport'].append(iata)
             departures[code]['event_airport_name'].append(airports[iata])
+            departures[code]['date_from'].append(date_from)
+            departures[code]['date_to'].append(date_to)
         else:
             departures[code] = dict()
             departures[code]['origin'] = dest
@@ -288,6 +291,8 @@ def update_departures(codes, dests, prices, iata, event, date, site):
             departures[code]['site'] = [site]
             departures[code]['event_airport'] = [iata]
             departures[code]['event_airport_name'] = [airports[iata]]
+            departures[code]['date_from'] = [date_from]
+            departures[code]['date_to'] = [date_to]
 
 
 def sort_departures():
@@ -312,9 +317,11 @@ def sort_departures():
         if country in special_countries:
             for city in special_cities[country]:
                 if country not in fictional_countries:
-
-                    cities_list[country2short[country]].append(city)
-
+                    
+                    try:
+                        cities_list[country2short[country]].append(city)
+                    except:
+                        print(f'Problems with country key: {country}')
                 else:
                     if country in cities_list.keys():
                         cities_list[country].append(city)
@@ -322,7 +329,10 @@ def sort_departures():
                         cities_list[country] = [city]
 
         if country not in fictional_countries:
-            cities[country] = sorted(cities_list[country2short[country]])
+            try:
+                cities[country] = sorted(cities_list[country2short[country]])
+            except:
+                print(f'Problems with country key: {country}')
 
     return countries, cities
 
@@ -332,7 +342,7 @@ def main():
 
     # TODO make this a function that scrapes the gigs from SONGKICK
     csv = 'data/Tour-dates.csv'
-    tour_name = 'DEATH TO FALSE TOURS'
+    tour_name = 'Nanowar Of Steel On Tour'
     df = pd.read_csv(csv)
     reset_vars()
 
@@ -341,11 +351,13 @@ def main():
     map_center = geocode_address(eu_center)
 
     # This tile style is so FEUDALE
-    tile = 'stamenwatercolor'
+    #tile = 'stamenwatercolor'
+    tile = 'mapquestopen'
 
     # Create the folium map. We don't want the tile name to appear in the legend so we initialize it separately
-    m = folium.Map(location=[map_center.y, map_center.x], tiles=None, zoom_start=4) 
-    tile_layer = folium.TileLayer(tiles=tile, control=False)
+    m = folium.Map(location=[map_center.y, map_center.x], tiles=None, zoom_start=4) #, attr='WorldTour') 
+    #tile_layer = folium.TileLayer(tiles=tile, control=False)
+    tile_layer = folium.TileLayer(control=False)
     tile_layer.add_to(m)
 
     #st.set_page_title('In The Sky Scanner')
@@ -430,8 +442,12 @@ def main():
             code = city2airports[choose_city]
 
             if code in departures.keys():
+            
+                print('--------->', departures[code], code)
+                
                 departure = update_airport_event_distance(data=df, departure=departures[code])
-                departures_text = html_pages.departures_html(departure)
+                date_from, date_to = 0, 0 #create_date_range(this_date, days_before, days_after)
+                departures_text = html_pages.departures_html(departure, code)
 
         return departures_text
 
@@ -439,7 +455,6 @@ def main():
     with st.form('country'):
         choose_country = st.selectbox('Choose your country of departure:', countries)
         out1 = st.form_submit_button('Refresh city list')
-
 
     # This second form has to be reloaded once the country has been chosen, otherwise streamlit won't updade the dict cities[country] in real time
     with st.form('city'):

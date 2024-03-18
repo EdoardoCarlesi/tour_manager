@@ -8,6 +8,12 @@ def convert_date(date):
     return f'{day}/{month}/{year[2:]}'
 
 
+def ryanair_query(iataIn, iataOut, dateIn, dateOut):
+
+    return f'https://www.ryanair.com/ie/en/trip/flights/select?adults=1&dateOut={dateOut}&dateIn={dateIn}&isReturn=true&originIata={iataIn}&destinationIata={iataOut}'
+    
+    
+
 def flights_html(origin, dests, prices):
     
     html = "<b>" + origin.replace(' ', '_') + "</b><br>"
@@ -26,22 +32,31 @@ def flights_html(origin, dests, prices):
     return html
 
 
-def departures_html(departure):
+def departures_html(departure, iataIn):
     """ Given a departure city, show a table with all the available flight connections """
 
-    html = "<table><tr><th> Date </th><th> Event </th><th> Arrival </th><th> Flight price from </th><th> Link </th></tr>"
-    
-    for event, date, price, airport, distance, site in zip(departure['event'], departure['date'], departure['price'], departure['event_airport_name'], departure['distance_to_event'], departure['site']):
+    html = "<table><tr><th> Date </th><th> Event </th><th> Arrival </th><th> Flight price from </th><th> Event </th><th> Flight </th></tr>"
+ 
+    #print(departure)
+    #dateOut = departure['date'][0]
+    #dateIn = departure['date'][1]
 
+    for event, date, price, airport, distance, site, iataOut, dateOut, dateIn,  in zip(departure['event'], 
+            departure['date'], departure['price'], departure['event_airport_name'], departure['distance_to_event'], departure['site'], 
+            departure['event_airport'], departure['date_from'], departure['date_to']):
         replace_str = ["Nanowar Of Steel", " at ", " with ", "Frozen Crown", "Tragedy", " and "]
-
+        
         for rs in replace_str:
             event = event.replace(rs, '')
         #tag_name = event.replace(' ', '').replace(',', '').lower()
-        #link_to = "&#8364;</th><th><a href='#" + tag_name + "'>INFO</a></th></tr>"
-        link_to = f"&#8364;</th><th><a href='{site}' target='_blank'>WWW</a></th></tr>"
+        #link_to = "&#86364;</th><th><a href='#" + tag_name + "'>INFO</a></th></tr>"
+        link_to = f"&#8364;</th><th><a href='{site}' target='_blank'>INFO</a></th>"
+        
+        ryanair_link = ryanair_query(dateOut=dateOut, dateIn=dateIn, iataIn=iataIn, iataOut=iataOut)
+        flight = f"&#8364;</th><th><a href='{ryanair_link}' target='_blank'>FLIGHT</a></th></tr>"
+
         date = convert_date(date) 
-        html += "<tr><th>" + date + "</th><th>" + event + "</th><th>" + airport['city'] + " (" + distance + " km)</th><th>" + str(int(price)) + link_to
+        html += "<tr><th>" + date + "</th><th>" + event + "</th><th>" + airport['city'] + " (" + distance + " km)</th><th>" + str(int(price)) + link_to + flight
 
     return html
 

@@ -133,12 +133,17 @@ def main():
         aid = st.secrets['ORS_USER']
         key = st.secrets['ORS_API_KEY']
         
-    #gig_list = 'data/Tour-dates.csv'
+    gig_list = 'data/Tour-dates.csv'
     #gig_list = 'data/tour_dates_edit.csv'
     #gig_list = 'data/trip_balkan.csv'
     #output_file = 'data/trip_balkan_dist.csv'
+<<<<<<< HEAD
     gig_list = 'data/EU_2024_first_leg.csv'
     output_file = 'EU_2024_first_leg.csv'
+=======
+    #gig_list = 'data/america_2023.csv'
+    output_file = 'data/america_2023_dist.csv'
+>>>>>>> fc7a0d6f80d2f069c79aa1378bc4ecb37f92bde3
     tm = TourManager(api_key=key, artist_id=aid)
     tm.manage_tour(gig_list, output_file)
     #tm.clean_gigs(gig_list, skip_first=5, skip_last=4)
