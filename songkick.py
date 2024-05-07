@@ -15,6 +15,8 @@ class SongKick:
         self.api_url_str = f'https://api.songkick.com/api/3.0/artists/{self.artist_id}/calendar.json?apikey={self.api_key}'
         response = requests.get(self.api_url_str)
         concerts = response.json()
+
+        print(concerts)
         events = concerts['resultsPage']['results']['event']
         
         for event in events:
@@ -102,6 +104,46 @@ class SongKick:
         shows_df = pd.DataFrame(rows, columns=columns)
         shows_df.to_csv(shows_file)
 
+    def to_bandsintown_csv(self):
+
+        bit_template = 'data/Bandsintown_Template.csv'
+        bit_file = 'data/Bandsintown_Shows.csv'
+        sk_file = 'data/Tour-dates.csv'
+
+        col_bit = ['Venue*','Country*','City*','Region*','Start Date* (yyyy-mm-dd)','Start Time* (HH:MM)','Ticket Link', 'Address']
+        col_sk = ['Event name','Event date','Country','City','Address','Website']
+
+        sk2bit = dict()
+
+        sk2bit[col_bit[0]] = col_sk[0]
+        sk2bit[col_bit[1]] = col_sk[2]
+        sk2bit[col_bit[2]] = col_sk[3]
+        sk2bit[col_bit[3]] = col_sk[2]
+        sk2bit[col_bit[4]] = col_sk[1]
+        sk2bit[col_bit[6]] = col_sk[-1]
+        sk2bit[col_bit[7]] = col_sk[-2]
+
+        shows_sk = pd.read_csv(sk_file)
+        shows_bit = pd.read_csv(bit_template)
+        print(shows_bit.head())
+
+        dummy = ['' for i in range(len(shows_sk))]
+        time = ['17:00' for i in range(len(shows_sk))]
+        tickets = ['http://www.nanowar.it/live' for i in range(len(shows_sk))]
+    
+        for col in shows_bit.columns:
+            print(col)
+            if col in sk2bit.keys():
+                shows_bit[col] = shows_sk[sk2bit[col]]
+            else:
+                shows_bit[col] = dummy
+
+        shows_bit[col_bit[-3]] = time
+
+        print(shows_bit.head())
+        shows_bit.to_csv(bit_file)
+
+
 if __name__ == '__main__':
 
     aid = os.environ['SONGKICK_USER']
@@ -113,14 +155,6 @@ if __name__ == '__main__':
     
     
     sk = SongKick(api_key=key, artist_id=aid)
-
-    #shows = sk.past_concerts()
-    #shows = sk.get_concerts()
-    #print(len(shows))
-    
-    #sk.get_airports()
-    sk.future_events_to_csv()
-    #for show in shows:
-    #    print(show['displayName'])
+    sk.to_bandsintown_csv() 
 
 
