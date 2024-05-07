@@ -125,7 +125,6 @@ class SongKick:
 
         shows_sk = pd.read_csv(sk_file)
         shows_bit = pd.read_csv(bit_template)
-        print(shows_bit.head())
 
         dummy = ['' for i in range(len(shows_sk))]
         time = ['17:00' for i in range(len(shows_sk))]
@@ -139,8 +138,6 @@ class SongKick:
                 shows_bit[col] = dummy
 
         shows_bit[col_bit[-3]] = time
-
-        print(shows_bit.head())
         shows_bit.to_csv(bit_file)
 
 
@@ -155,6 +152,7 @@ if __name__ == '__main__':
     
     
     sk = SongKick(api_key=key, artist_id=aid)
+    sk.future_events_to_csv() 
     sk.to_bandsintown_csv() 
 
 
