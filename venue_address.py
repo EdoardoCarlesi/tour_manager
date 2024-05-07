@@ -1,18 +1,24 @@
 import geopandas as gpd 
 import pandas as pd
 
-f_csv = 'data/Tour-dates.csv'
 
-df = pd.read_csv(f_csv)
+def get_address():
+    f_csv = 'data/Tour-dates.csv'
 
-#print(df.head())
-#print(df.columns)
-#print(df['Address'])
+    df = pd.read_csv(f_csv)
+    addresses = []
 
-for i, row in df.iterrows():
+    for i, row in df.iterrows():
 
-    event = row['Event name'].split(' at ')[-1]
-    city = row['City']
-    country = row['Country']
+        event = row['Event name'].split(' at ')[-1]
+        city = row['City']
+        country = row['Country']
 
-    print(event, city, country)
+        addresses.append(f'{event}, {city}, {country}')
+
+    return addresses
+
+
+if __name__ == '__main__':
+
+    get_address()
