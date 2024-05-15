@@ -1,0 +1,18 @@
+,Event name,Event date,Country,City,Address,Website,IATA,distances
+0,START,2024-03-26,Italy,Roma,Fiumicino,'','',''
+0,DAY TRIP,2024-04-14,Germany,Lorrach,Lorrach,'','',''
+0,DAY TRIP,2024-04-15,Germany,Koeln,Colonia,'','',''
+0, Willem Twee Poppodium ,2024-04-16, Netherlands,'s Hertogenbosch,'s Hertogenbosch,https://www.songkick.com/concerts/41623710-nanowar-of-steel-at-willem-twee-poppodium?utm_source=60345&utm_medium=partner,"['EIN', 'NRN', 'RTM']","[27, 59, 65]"
+1," Halle, Im Wizemann ",2024-04-17, Germany,Stuttgart,Stuttgart,https://www.songkick.com/concerts/41623712-nanowar-of-steel-at-halle-im-wizemann?utm_source=60345&utm_medium=partner,"['FMM', 'SXB', 'NUE']","[119, 119, 156]"
+2, F-Haus ,2024-04-18, Germany,Jena,Jena,https://www.songkick.com/concerts/41623699-nanowar-of-steel-at-fhaus?utm_source=60345&utm_medium=partner,"['ERF', 'LEJ', 'KLV']","[44, 71, 124]"
+3, Club Vaudeville ,2024-04-19, Germany,Lindau,Lindau,https://www.songkick.com/concerts/41623700-nanowar-of-steel-at-club-vaudeville?utm_source=60345&utm_medium=partner,"['FMM', 'BSL;MLH;EAP', 'MUC']","[62, 164, 177]"
+4, Hellraiser ,2024-04-20, Germany,Leipzig,Leipzig,https://www.songkick.com/concerts/41623701-nanowar-of-steel-at-hellraiser?utm_source=60345&utm_medium=partner,"['LEJ', 'DRS', 'ERF']","[17, 93, 112]"
+5, Bastard Club,2024-04-21, Germany,Osnabrück,Osnabrück,https://www.songkick.com/concerts/41623719-nanowar-of-steel-at-unknown-venue?utm_source=60345&utm_medium=partner,"['BRE', 'HAM', 'GRQ']","[65, 110, 124]"
+6, HIRSCH ,2024-04-22, Germany,Nuernberg,Nuremberg,https://www.songkick.com/concerts/41623702-nanowar-of-steel-at-hirsch?utm_source=60345&utm_medium=partner,"['NUE', 'MUC', 'KLV']","[8, 130, 158]"
+7, FRANNZ Club ,2024-04-23, Germany,Berlin,Berlin,https://www.songkick.com/concerts/41623703-nanowar-of-steel-at-frannz-club?utm_source=60345&utm_medium=partner,"['LEJ', 'SZZ', 'DRS']","[148, 153, 158]"
+8, 2progi ,2024-04-24, Poland,Poznan,Poznan,https://www.songkick.com/concerts/41623704-nanowar-of-steel-at-2progi?utm_source=60345&utm_medium=partner,"['POZ', 'IEG', 'BZG']","[6, 82, 103]"
+9, Masters Of Rock Café ,2024-04-25, Czech Republic,Zlín,Zlín,https://www.songkick.com/concerts/41623711-nanowar-of-steel-at-masters-of-rock-cafe?utm_source=60345&utm_medium=partner,"['OSR', 'PZY', 'ILZ']","[61, 67, 68]"
+10, Barba Negra ,2024-04-26, Hungary,Budapest,Budapest,https://www.songkick.com/concerts/41623705-nanowar-of-steel-at-barba-negra?utm_source=60345&utm_medium=partner,"['SLD', 'PZY', 'BTS']","[133, 160, 161]"
+11, Szene Wien ,2024-04-27, Austria,Vienna,Vienna,https://www.songkick.com/concerts/41623706-nanowar-of-steel-at-szene-wien?utm_source=60345&utm_medium=partner,"['VIE', 'BTS', 'BRQ']","[13, 59, 110]"
+12, Rockhouse ,2024-04-28, Austria,Salzburg,Salzburg,https://www.songkick.com/concerts/41623707-nanowar-of-steel-at-rockhouse?utm_source=60345&utm_medium=partner,"['SZG', 'LNZ', 'MUC']","[4, 96, 112]"
+0,RETURN,2024-04-29,Italy,Roma,Fiumicino,'','',''
