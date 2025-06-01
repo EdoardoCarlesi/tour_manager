@@ -12,17 +12,25 @@ class SongKick:
         self.artist_id = artist_id
 
     def get_concerts(self):
-        self.api_url_str = f'https://api.songkick.com/api/3.0/artists/{self.artist_id}/calendar.json?apikey={self.api_key}'
-        response = requests.get(self.api_url_str)
-        concerts = response.json()
-
-        print(concerts)
-        events = concerts['resultsPage']['results']['event']
         
-        for event in events:
-            print(event['displayName'], event['location']['city'])
+        try:
+            self.api_url_str = f'https://api.songkick.com/api/3.0/artists/{self.artist_id}/calendar.json?apikey={self.api_key}'
+            response = requests.get(self.api_url_str)
+            print(response, self.api_key, self.artist_id)
+            concerts = response.json()
 
-        return events
+            print(concerts)
+            events = concerts['resultsPage']['results']['event']
+            
+            for event in events:
+                print(event['displayName'], event['location']['city'])
+
+            return events
+        
+        except:
+            local_csv = 'data/Bandsintown_INPUT.csv'
+            df = pd.read_csv(local_csv)
+
 
     def past_concerts(self):
         self.api_url_str = f'https://api.songkick.com/api/3.0/artists/{self.artist_id}/gigography.json?apikey={self.api_key}'
@@ -153,6 +161,6 @@ if __name__ == '__main__':
     
     sk = SongKick(api_key=key, artist_id=aid)
     sk.future_events_to_csv() 
-    sk.to_bandsintown_csv() 
+    #sk.to_bandsintown_csv() 
 
 
